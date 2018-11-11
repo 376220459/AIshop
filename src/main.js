@@ -3,6 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'lib-flexible'
+import axios from 'axios'
+// import { Xbutton } from 'vux'
+// import { AlertPlugin, ToastPlugin } from 'vux'
+// Vue.use(AlertPlugin)
+// Vue.use(ToastPlugin)
+
+// Vue.use(Xbutton)
+// Vue.component('x-button', XButton)
+
+axios.defaults.withCredentials = true
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
