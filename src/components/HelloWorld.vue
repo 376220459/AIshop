@@ -1,20 +1,15 @@
 <template>
   <div>
-    <!-- <x-button type="primary">haha</x-button> -->
-    哈哈
+    <mt-button type="default" @click="$toast({message: '操作成功',iconClass: 'mintui mintui-success'})">default</mt-button>
+    <mt-button type="primary" @click="$message('提示','操作成功')">primary</mt-button>
   </div>
 </template>
 
 <script>
-// import { XButton } from 'vux'
 
-// export default {
-//   components: {
-//     XButton
-//   }
-// }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>
+

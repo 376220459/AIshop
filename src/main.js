@@ -5,13 +5,12 @@ import App from './App'
 import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
-// import { Xbutton } from 'vux'
-// import { AlertPlugin, ToastPlugin } from 'vux'
-// Vue.use(AlertPlugin)
-// Vue.use(ToastPlugin)
+import { Button,Toast,MessageBox } from 'mint-ui'
 
-// Vue.use(Xbutton)
-// Vue.component('x-button', XButton)
+
+Vue.component(Button.name, Button)
+Vue.prototype.$toast = Toast
+Vue.prototype.$message = MessageBox
 
 axios.defaults.withCredentials = true
 Vue.prototype.$http = axios
