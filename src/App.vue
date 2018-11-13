@@ -2,17 +2,13 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <router-view/>
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Footer from '@/components/common/Footer'
 export default {
-  name: 'App',
-  components: {
-    Footer: Footer
-  }
+  name: 'App'
 }
 </script>
 
@@ -24,11 +20,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   /* margin-top: 60px; */
-  display: grid;
-  grid-template: 9fr 1fr / 1fr;
   height: 100%;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between */
 }
 </style>

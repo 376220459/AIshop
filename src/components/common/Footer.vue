@@ -10,7 +10,9 @@
 </template>
 
 <script>
+import store from '@/vuex/store'
 export default {
+    store,
     name: 'Footer',
     data(){
         return{
@@ -19,38 +21,38 @@ export default {
                     icon: 'iconfont icon-home',
                     name: '首页',
                     path: '/home',
-                    style: 'color: #00BFFF;transform: scale(0.9)'
                 },
                 {
                     icon: 'iconfont icon-favor',
                     name: '关注',
                     path: '/follow',
-                    style: ''
                 },
                 {
                     icon: 'iconfont icon-cart',
                     name: '购物车',
                     path: '/cart',
-                    style: ''
                 },
                 {
                     icon: 'iconfont icon-my_light',
                     name: '我的',
                     path: '/person',
-                    style: ''
                 },
             ]
         }
     },
     methods: {
         navClick(index){
-            this.navItems.forEach((item)=>{
-                item.style = ''
-            });
-            this.navItems[index].style = 'color: #00BFFF;transform: scale(0.9)';
-            this.$router.push({
-                path: this.navItems[index].path
-            });
+            if(index!=0 && !this.$store.state.id){
+                this.$toast({
+                    message: '您好像还没有登陆哦~',
+                    duration: 2000
+                });
+                this.$router.push({path:'/login'});
+            }else{
+                this.$router.push({
+                    path: this.navItems[index].path
+                });
+            }
         }
     }
 }
