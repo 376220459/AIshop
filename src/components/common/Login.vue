@@ -1,8 +1,8 @@
 <template>
     <div class="login-whole">
         <div class="top">
-            <div class="line"></div>
-            <div class="btn" @click="login"><span>登陆</span></div>
+            <div class="line" style="border-color:#00FA9A;"></div>
+            <div class="btn" @click="login" style="border-color:#00FA9A;"><span>登陆</span></div>
         </div>
         <div class="loginForm">
             <form action="">
@@ -11,8 +11,8 @@
             </form>
         </div>
         <div class="bottom">
-            <div class="btn" @click="register"><span>注册</span></div>
-            <div class="line"></div>
+            <div class="btn" @click="register" style="border-color:gray;"><span>注册</span></div>
+            <div class="line" style="border-color:gray;"></div>
         </div>
     </div>    
 </template>
@@ -31,10 +31,10 @@ export default {
         login(){
             this.$store.state.id = 1;
             this.$toast({
-                message: '登陆成功',
+                message: '注册个账号再登陆吧',
                 duration: 1000
             });
-            this.$router.push({path:'/'})
+            // this.$router.push({path:'/'})
         },
         register(){
             this.$router.push({path:'/register'})
@@ -96,6 +96,7 @@ export default {
                 margin: 20px 0;
                 font-size: 2em;
                 input{
+                    height: 1.5em;
                     outline: none;
                     font-size: 0.8em;
                     background: transparent;
