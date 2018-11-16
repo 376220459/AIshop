@@ -5,11 +5,16 @@ import App from './App'
 import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
-import { Button,Toast,MessageBox,Field,Indicator } from 'mint-ui'
+import { Button,Toast,MessageBox,Field,Indicator,Swipe,SwipeItem,InfiniteScroll,TabContainer, TabContainerItem } from 'mint-ui'
 
 
 Vue.component(Button.name, Button)
 Vue.component(Field.name, Field)
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
+Vue.component(TabContainer.name, TabContainer)
+Vue.component(TabContainerItem.name, TabContainerItem)
+Vue.use(InfiniteScroll)
 Vue.prototype.$toast = Toast
 Vue.prototype.$message = MessageBox
 Vue.prototype.$loading = Indicator
