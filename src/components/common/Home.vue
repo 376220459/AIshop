@@ -1,9 +1,9 @@
 <template>
-    <div class="home-whole">
+    <div class="home-whole" id="homeWhole">
         <div class="home-content">
             <div class="search">
                 <div class="search-content">
-                    <input type="text" placeholder="淘一淘想要的东西吧">
+                    <input type="text" placeholder="淘一淘想要的东西吧" @focus="toSearch">
                     <i class="iconfont icon-search"></i>
                 </div>
             </div>
@@ -12,7 +12,7 @@
                 <div class="hot">
                     <i class="iconfont icon-huoyan"></i>
                     <ul>
-                        <li v-for="(item, index) in hotGoods" :key="index">{{ item }}</li>
+                        <li v-for="(item, index) in hotGoods" :key="index" @click="click">{{ item }}</li>
                     </ul>
                 </div>
 
@@ -408,6 +408,11 @@ export default {
                 duration: 500
             })
         },
+        toSearch(){
+            this.$router.push({path: '/search'});
+            let homeWhole = document.getElementById('homeWhole');
+            homeWhole.style.display = 'none';
+        },
         goodsNavIfChange(index){
             this.goodsNavIf = [];
             this.goodsNavIf[index] = true;
@@ -489,8 +494,8 @@ export default {
                     input{
                         height: 2em;
                         width: 80%;
-                        outline: none;
-                        background: transparent;
+                        // outline: none;
+                        // background: transparent;
                         border: 1px solid #FF6600;
                         border-radius: 18px;
                         padding: 2px 0 2px 10px;

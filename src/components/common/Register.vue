@@ -53,7 +53,10 @@ export default {
                     this.$router.push({path:'/'})
                 }, 1000);
             }else{
-                this.$toast('请正确填写注册信息');
+                this.$toast({
+                    message: '请正确填写注册信息',
+                    duration: 500
+                });
             }
             
         },

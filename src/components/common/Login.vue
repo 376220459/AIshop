@@ -131,9 +131,9 @@ export default {
                 font-size: 2em;
                 input{
                     height: 1.5em;
-                    outline: none;
+                    // outline: none;
+                    // background: transparent;
                     font-size: 0.8em;
-                    background: transparent;
                     border: 1px solid black;
                     border-radius: 16px;
                     width: 10em;

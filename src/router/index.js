@@ -7,6 +7,7 @@ import Follow from '@/components/person/Follow'
 import Person from '@/components/person/Person'
 import Login from '@/components/common/Login'
 import Register from '@/components/common/Register'
+import Search from '@/components/common/Search'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
     }
   ]
 })
