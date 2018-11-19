@@ -94,7 +94,6 @@ export default {
             border-left: 1px solid black;
         }
         .btn{
-            user-select: none;
             width: 80px;
             height: 80px;
             border: 1px solid black;

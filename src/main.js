@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import 'lib-flexible'
 import axios from 'axios'
-import { Button,Toast,MessageBox,Field,Indicator,Swipe,SwipeItem,InfiniteScroll,TabContainer, TabContainerItem } from 'mint-ui'
+import { Button,Toast,MessageBox,Field,Indicator,Swipe,SwipeItem,InfiniteScroll,TabContainer,TabContainerItem } from 'mint-ui'
 
 
 Vue.component(Button.name, Button)

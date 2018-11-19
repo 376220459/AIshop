@@ -8,6 +8,7 @@ import Person from '@/components/person/Person'
 import Login from '@/components/common/Login'
 import Register from '@/components/common/Register'
 import Search from '@/components/common/Search'
+import SearchResult from '@/components/common/SearchResult'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/searchresult',
+      name: 'SearchResult',
+      component: SearchResult
     }
   ]
 })

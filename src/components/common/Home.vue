@@ -12,7 +12,7 @@
                 <div class="hot">
                     <i class="iconfont icon-huoyan"></i>
                     <ul>
-                        <li v-for="(item, index) in hotGoods" :key="index" @click="click">{{ item }}</li>
+                        <li v-for="(item, index) in hotGoods" :key="index" @click="hotClick(item)">{{ item }}</li>
                     </ul>
                 </div>
 
@@ -48,7 +48,7 @@
 
                 <div class="goods" id="goods">
                     <!-- <span>随便看看</span> -->
-                    <div class="goods-nav" style="position:sticky;top:0">
+                    <div class="goods-nav">
                         <ul>
                             <li @click="goodsNavIfChange(0)" :style="goodsNavStyles[0]">全部</li>
                             <li @click="goodsNavIfChange(1)" :style="goodsNavStyles[1]">热销</li>
@@ -118,7 +118,7 @@ export default {
     },
     data(){
         return{
-            goodsNavStyle: ['color:red'],
+            // goodsNavStyle: ['color:red'],
             goodsNavIf: [true],
             storageWhole: [],
             storageHot: [],
@@ -408,10 +408,14 @@ export default {
                 duration: 500
             })
         },
+        hotClick(item){
+            this.$router.push({path:'/searchresult', query: {goods: item}});
+        },
         toSearch(){
-            this.$router.push({path: '/search'});
+            
             let homeWhole = document.getElementById('homeWhole');
             homeWhole.style.display = 'none';
+            this.$router.push({path: '/search'});
         },
         goodsNavIfChange(index){
             this.goodsNavIf = [];
@@ -470,7 +474,6 @@ export default {
             }
         }
         .home-content{
-            user-select: none;
             height: 90%;
             width: 100%;
             overflow: auto;
@@ -561,7 +564,6 @@ export default {
                 }
                 .favourite{
                     ul{
-                        
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: space-around;
@@ -592,6 +594,8 @@ export default {
                 }
                 .goods{
                     .goods-nav{
+                        position:sticky;
+                        top:0;
                         ul{
                             display: flex;
                             justify-content: space-around;

@@ -190,7 +190,6 @@ export default {
         height: 100%;
         display: grid;
         grid-template: 5fr 1fr / 1fr;
-        user-select: none;
         form{
             // border-bottom: 1px solid gray;
             text-align: left;

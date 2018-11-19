@@ -68,7 +68,6 @@ export default {
             li{
                 list-style: none;
                 box-sizing: border-box;
-                user-select: none;
                 i{
                     font-size: 2em;
                 }
