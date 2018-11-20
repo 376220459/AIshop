@@ -1,15 +1,52 @@
 <template>
     <div class="searchresult-whole" id="resultWhole">
+        <div class="select-list" :style="{right:selectRight+'rem',display:selectDisplay}">
+            <span class="title">筛选</span>
+            <div class="content">
+                <div class="goods-type">
+                    <span>商品类型</span>
+                    <ul>
+                        <li v-for="(item, index) in select.goodsType" :key="index" :style="goodsTypeStyle[index]" @click="changeGoodsType(item,index)">{{ item }}</li>
+                    </ul>
+                </div>
+
+                <div class="goods-server">
+                    <span>折扣和服务</span>
+                    <ul>
+                        <li v-for="(item2, index2) in select.goodsServer" :key="index2" :style="goodsServerStyle[index2]" @click="changeGoodsServer(item2,index2)">{{ item2 }}</li>
+                    </ul>
+                </div>
+
+                <div class="goods-range">
+                    <span>价格区间</span>
+                    <div><input type="number" placeholder="最低价" v-model="lowprice"> —— <input type="number" placeholder="最高价" v-model="highprice"></div>
+                    <ul>
+                        <li v-for="(item3, index3) in select.priceRange" :key="index3" :style="goodsRangeStyle[index3]" @click="changeGoodsRange(index3,item3.price)">
+                            <p style="margin-bottom:2px;"><strong>￥</strong>{{ item3.price }}</p>
+                            <p>{{ item3.percentage }}%的选择</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="button">
+                <button @click="clear">重置</button>
+                <button @click="selectCommit">确定</button>
+            </div>
+        </div>
+
+        <div class="cover" :style="{display:coverDisplay}" @click="hidden"></div>
+
         <div class="search">
             <i class="iconfont icon-fanhui" @click="goBack"></i>
             <input type="text" v-model="searchContent" @focus="goBack">
-            <button>搜索</button>
+            <i class="iconfont icon-home" @click="goHome" style="color: #FFA500 "></i>
         </div>
 
         <div class="nav">
             <ul>
-                <li :style="navStyle[0]" @click="changeNav('whole',0)">全部</li>
-                <li :style="navStyle[1]" @click="changeNav('shop',1)">店铺</li>
+                <li :style="navStyle[0]" @click="changeNav('whole')">全部</li>
+                <li :style="navStyle[1]" @click="changeNav('shop')">店铺</li>
             </ul>
         </div>
 
@@ -22,7 +59,7 @@
                     <option value="">价格↓</option>
                     <option value="">价格↑</option>
                 </select>
-                <span>筛选<i class="iconfont icon-shaixuan"></i></span>
+                <span @click="selectGoods">筛选<i class="iconfont icon-shaixuan"></i></span>
             </div>
             <div class="list">
                 <ul>
@@ -63,8 +100,8 @@
                         <img height="75%" :src="item.goods3" alt="goods3">
                     </div>
                     <div>
-                        <span>{{ item.year }}年店铺</span>
-                        <span>收藏人数{{ item.collectCount }}</span>
+                        <span>#{{ item.year }}年店铺</span>
+                        <span>#收藏人数{{ item.collectCount }}</span>
                     </div>
                 </li>
             </ul>
@@ -77,179 +114,79 @@ export default {
     name: 'Search',
     data(){
         return{
-            nav: 'whole',
+            goodsTypeStyle: [],
+            goodsServerStyle: [],
+            goodsRangeStyle: [],
+            lowprice: '',
+            highprice: '',
+            nav: '',
             shopNav: 'comprehensive',
+            coverDisplay: '',
             searchContent: '',
-            listIf: [true],
+            selectDisplay: '',
+            selectRight: -8,
+            goodsType: '',
+            goodsServer: [],
+            // goodsRange: '',
+            select: {
+                goodsType: ['USB','AV','HDMI','LAN端子','RF射频接口'],
+                goodsServer: ['包邮','消费者保障','公益宝贝','7+天内退货','货到付款','花呗分期','快递到家'],
+                priceRange: [
+                    {
+                        price: '1560-1980',
+                        percentage: 11
+                    },
+                    {
+                        price: '1980-2200',
+                        percentage: 19
+                    },
+                    {
+                        price: '2200-2580',
+                        percentage: 25
+                    },
+                    {
+                        price: '2580-3000',
+                        percentage: 15
+                    },
+                    {
+                        price: '3000-3500',
+                        percentage: 30
+                    },
+                ]
+            },
             goodslist: [
                 {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
+                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
                     label: ['','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
+                    price: '3299.00',
+                    payCount: '18.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮',''],
-                    price: '558.00',
-                    payCount: '967',
+                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    label: ['','公益宝贝'],
+                    price: '3299.00',
+                    payCount: '18.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
+                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    label: ['','公益宝贝'],
+                    price: '3299.00',
+                    payCount: '18.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
+                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    label: ['','公益宝贝'],
+                    price: '3299.00',
+                    payCount: '18.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                },
-                {
-                    introduce: '花花公子男士羽绒服2018年新款冬季青年中长款连帽大毛领休闲外套',
-                    label: ['包邮','公益宝贝'],
-                    price: '558.00',
-                    payCount: '967',
-                    address: '浙江 杭州',
-                    img: 'static/search/goods1.jpg'
-                }
             ],
             shoplist: [
                 {
@@ -293,13 +230,45 @@ export default {
             let saleStyle = this.shopNav == 'sale' ? 'color:#FF6600;':'';
             let valueStyle = this.shopNav == 'value' ? 'color:#FF6600;':'';
             return [comprehensiveStyle,saleStyle,valueStyle];
+        },
+        listIf(){
+            let wholeIf = this.nav == 'whole'?true:false;
+            let shopIf = this.nav == 'shop'?true:false;
+            return [wholeIf,shopIf];
         }
     },
     methods: {
-        changeNav(nav,index){
-            this.listIf = [];
-            this.listIf[index] = true;
+        changeGoodsType(item,index){
+            this.goodsTypeStyle = [];
+            this.goodsTypeStyle[index] = 'color:#FF6600';
+            this.goodsType = item;
+        },
+        changeGoodsServer(item,index){
+            this.goodsServerStyle[index] = this.goodsServerStyle[index]=='color:#FF6600'?'':'color:#FF6600';
+            let arrStorage = this.goodsServerStyle.concat();
+            this.goodsServerStyle = arrStorage;
+            this.goodsServer.push(item)
+        },
+        changeGoodsRange(index,price){
+            this.goodsRangeStyle = [];
+            this.goodsRangeStyle[index] = 'color:#FF6600';
+            this.lowprice = price.split('-')[0];
+            this.highprice = price.split('-')[1];
+        },
+        clear(){
+            this.goodsType = this.lowprice = this.highprice = '';
+            this.goodsServer = this.goodsTypeStyle = this.goodsServerStyle = this.goodsRangeStyle = [];
+        },
+        selectCommit(){
+            // this.$toast({
+            //     message: '商品类型：' + this.goodsType + '\n' + '折扣和服务：' + this.goodsServer.join('--')
+            // })
+            alert('商品类型： ' + this.goodsType + '\n' + '折扣和服务： ' + this.goodsServer.join('、') + '\n' + '价格区间： ' + this.lowprice + '-' + this.highprice);
+            this.hidden();
+        },
+        changeNav(nav){
             this.nav = nav;
+            this.$router.push({path:'/searchresult', query: {type: nav,goods: this.searchContent}});
         },
         changeShopNav(shopNav){
             this.shopNav = shopNav;
@@ -307,21 +276,30 @@ export default {
         goBack(){
             let resultWhole = document.getElementById('resultWhole');
             resultWhole.style.display = 'none';
-            this.$router.push({path:'/search',query:{goods: this.searchContent}})
+            this.$router.push({path:'/search',query:{goods: this.searchContent}});
         },
-        deleteAll(){
-            this.$message.confirm('删除全部历史记录？').then(action=>{
-                this.history = [];
-            },reject=>{
-                console.log('取消删除操作');
-            })
+        goHome(){
+            this.$router.push({path:'/home'});
         },
-        historyClick(item){
-            this.searchContent = item;
+        selectGoods(){
+            this.selectDisplay = 'flex';
+            this.coverDisplay = 'block';
+            if(this.selectRight < '0'){
+                this.selectRight += 0.5;
+                setTimeout(() => {
+                    this.selectGoods();
+                },10);
+            }
+        },
+        hidden(){
+            this.selectDisplay = 'none';
+            this.coverDisplay = 'none';
+            this.selectRight = -8;
         }
     },
     mounted() {
         this.searchContent = this.$route.query.goods;
+        this.nav = this.$route.query.type;
     },
 }
 </script>
@@ -329,7 +307,118 @@ export default {
 <style lang="scss" scoped>
     .searchresult-whole{
         height: 100%;
-        background: #DCDCDC;
+        width: 100%;
+        background: #F0F0F0;
+        overflow: hidden;
+        position: relative;
+
+        .select-list{
+            height: 100%;
+            width: 80%;
+            display: none;
+            // display: flex;
+            flex-direction: column;
+            background: white;
+            z-index: 100;
+            position: absolute;
+            .title{
+                background: #F8F8F8;
+                height: 4%;
+                display: flex;
+                align-items: center;
+                color: #999;
+                padding-left: 10px;
+            }
+            .content{
+                height: 86%;
+                overflow: auto;
+                .goods-type,.goods-server,.goods-range{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding: 10px 5px;
+                    span{
+                        margin-bottom: 10px;
+                    }
+                    ul{
+                        display: flex;
+                        flex-wrap: wrap;
+                        // justify-content: space-around;
+                        align-items: center;
+                        padding-bottom: 10px;
+                        border-bottom: 1px dotted #999;
+                        li{
+                            width: 25%;
+                            background: #F8F8F8;
+                            padding: 10px;
+                            border-radius: 10px;
+                            margin: 5px 2px;
+                        }
+                    }
+                }
+                .goods-type,.goods-server,.goods-range{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding: 10px 5px;
+                    span{
+                        margin-bottom: 10px;
+                    }
+                    ul{
+                        display: flex;
+                        flex-wrap: wrap;
+                        // justify-content: space-around;
+                        align-items: center;
+                        padding-bottom: 10px;
+                        border-bottom: 1px dotted #999;
+                        li{
+                            width: 25%;
+                            background: #F8F8F8;
+                            padding: 10px;
+                            border-radius: 10px;
+                            margin: 5px 2px;
+                        }
+                    }
+                }
+                .goods-range{
+                    input{
+                        width: 30%;
+                        height: 30px;
+                        font-size: 15px;
+                        border: 1px solid #999;
+                        border-radius: 10px;
+                        padding: 0 5px;
+                        text-align: center;
+                    }
+                }
+            }
+            .button{
+                height: 10%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+                background: #F0F0F0;
+                button{
+                    z-index: 2;
+                    background:#FF6600;
+                    margin: 0 5px 10px 0;
+                    font-size: 20px;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                }
+            }
+        }
+
+        .cover{
+            width:100%;
+            height: 100%;
+            display: none;
+            z-index: 99;
+            position: absolute;
+            background: #778899;
+            opacity: 0.5;
+        }
+        
         .search{
             height: 8%;
             display: flex;
@@ -343,16 +432,10 @@ export default {
                 border-radius: 20px;
                 height: 30px;
                 width: 55%;
-                padding-left: 10px;
+                padding: 0 10px;
                 margin: 0 10px 0 30px;
                 font-size: 15px;
                 background: white;
-            }
-            button{
-                height: 30px;
-                padding: 5px 10px;
-                border-radius: 15px;
-                background: #FF6600;
             }
         }
         .nav{
@@ -395,6 +478,9 @@ export default {
                         font-size: 20px;
                     }
                 }
+                span:active{
+                    color: #FF6600;
+                }
             }
             .list{
                 height: 90%;
@@ -407,6 +493,7 @@ export default {
                         width: 100%;
                         display: flex;
                         margin-bottom: 10px;
+                        border-bottom: 1px dotted #999;
                         img{
                             border-radius: 15px;
                             margin-right: 5px;

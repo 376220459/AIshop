@@ -409,10 +409,9 @@ export default {
             })
         },
         hotClick(item){
-            this.$router.push({path:'/searchresult', query: {goods: item}});
+            this.$router.push({path:'/searchresult', query: {type: 'whole',goods: item}});
         },
         toSearch(){
-            
             let homeWhole = document.getElementById('homeWhole');
             homeWhole.style.display = 'none';
             this.$router.push({path: '/search'});

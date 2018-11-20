@@ -9,8 +9,8 @@
         <div class="nav">
             <ul>
                 <li :style="navStyle[0]" @click="changeNav('whole')">全部</li>
-                <li :style="navStyle[1]" @click="changeNav('goods')">商品</li>
-                <li :style="navStyle[2]" @click="changeNav('shop')">店铺</li>
+                <!-- <li :style="navStyle[1]" @click="changeNav('goods')">商品</li> -->
+                <li :style="navStyle[1]" @click="changeNav('shop')">店铺</li>
             </ul>
         </div>
 
@@ -39,9 +39,10 @@ export default {
     computed: {
         navStyle(){
             let wholeStyle = this.nav == 'whole' ? 'color:#FF6600;border-bottom:2px solid #FF6600;':'';
-            let goodsStyle = this.nav == 'goods' ? 'color:#FF6600;border-bottom:2px solid #FF6600;':'';
+            // let goodsStyle = this.nav == 'goods' ? 'color:#FF6600;border-bottom:2px solid #FF6600;':'';
             let shopStyle = this.nav == 'shop' ? 'color:#FF6600;border-bottom:2px solid #FF6600;':'';
-            return [wholeStyle,goodsStyle,shopStyle]
+            // return [wholeStyle,goodsStyle,shopStyle]
+            return [wholeStyle,shopStyle]
         }
     },
     methods: {
@@ -60,7 +61,7 @@ export default {
                     duration: 1000
                 })
             }else{
-                this.$router.push({path:'/searchresult', query: {goods: this.searchContent}});
+                this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
             }
         },
         deleteAll(){
@@ -72,7 +73,7 @@ export default {
         },
         historyClick(item){
             this.searchContent = item;
-            this.$router.push({path:'/searchresult', query: {goods: this.searchContent}});
+            this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
         }
     },
     mounted() {
@@ -88,7 +89,7 @@ export default {
         height: 100%;
         display: grid;
         grid-template: 1fr 1fr 10fr / 1fr;
-        background: #DCDCDC;
+        background: #F0F0F0;
         .search{
             display: flex;
             justify-content: center;
@@ -105,7 +106,7 @@ export default {
                 height: 30px;
                 width: 55%;
                 padding: 0 10px;
-                margin: 0 10px 0 30px;
+                margin: 0 10px 0 20px;
                 font-size: 15px;
                 background: white;
             }
