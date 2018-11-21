@@ -63,7 +63,7 @@
             </div>
             <div class="list">
                 <ul>
-                    <li v-for="(item, index) in goodslist" :key="index">
+                    <li v-for="(item, index) in goodslist" :key="index" @click="toGoods">
                         <img height="100%" :src="item.img" alt="goods">
                         <div class="goods-inf">
                             <p>{{ item.introduce }}</p>
@@ -295,6 +295,9 @@ export default {
             this.selectDisplay = 'none';
             this.coverDisplay = 'none';
             this.selectRight = -8;
+        },
+        toGoods(){
+            this.$router.push({path:'/goods'});
         }
     },
     mounted() {

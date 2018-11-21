@@ -9,6 +9,7 @@ import Login from '@/components/common/Login'
 import Register from '@/components/common/Register'
 import Search from '@/components/common/Search'
 import SearchResult from '@/components/common/SearchResult'
+import Goods from '@/components/common/Goods'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/searchresult',
       name: 'SearchResult',
       component: SearchResult
+    },
+    {
+      path: '/goods',
+      name: 'Goods',
+      component: Goods
     }
   ]
 })
