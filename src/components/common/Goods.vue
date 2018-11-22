@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="introduce">
-                    <p><span>{{ goods.brand }}</span>{{ goods.introduce }}</p>
+                    <p><span>{{ goods.shop.brand }}</span>{{ goods.introduce }}</p>
                     <span class="share"><i class="iconfont icon-share"></i>分享</span>
                 </div>
 
@@ -96,6 +96,46 @@
                     <p>{{ goods.evaluate.evaluate.content }}</p>
                 </div>
             </div>
+
+            <div class="goods-shop">
+                <div class="inf">
+                    <img height="70rem" :src="goods.shop.img" alt="shop">
+                    <div>
+                        <p>{{ goods.shop.name }}</p>
+                        <p>
+                            <span>{{ goods.shop.brand }}</span>
+                            <span>综合体验</span>
+                            <span v-for="(item, index) in goods.shop.startCount" :key="index"><i style="color:red" class="iconfont icon-xingxing"></i></span>
+                        </p>
+                    </div>
+                    <button class="bt1">全部宝贝</button>
+                    <button class="bt2">进店逛逛</button>
+                </div>
+                <div class="score">
+                    <span>宝贝描述 {{ goods.shop.goodsScore }}</span>
+                    <span>卖家服务 {{ goods.shop.serverScore }}</span>
+                    <span>宝贝描述 {{ goods.shop.logisticsScore }}</span>
+                </div>
+            </div>
+
+            <div class="goods-recommend">
+                <div>
+                    <span>店铺推荐</span>
+                    <span style="color:#FF6600">查看全部＞</span>
+                </div>
+                <ul>
+                    <li v-for="(item, index) in goods.shop.recommend" :key="index">
+                        <img width="100%" :src="item.img" alt="goods">
+                        <p class="p1">{{ item.introduce }}</p>
+                        <p class="p2">￥{{ item.price }}</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="goods-detailed-inf">
+                <span>------------------------宝贝详情------------------------</span>
+                <img v-for="(item, index) in goods.detailed" v-lazy="item" width="100%" :key="index" alt="detailed">
+            </div>
         </div>
 
         <div class="footer">
@@ -126,12 +166,10 @@ export default {
         return{
             navClass: [],
             nowCount: '1',
-            // allCount: '',
             goods: {
                 goodsImgs: ['static/goods/goods/goods1.jpg','static/goods/goods/goods2.jpg','static/goods/goods/goods3.jpg','static/goods/goods/goods4.jpg','static/goods/goods/goods5.jpg',],
                 price: '888',
                 goodsLabels: ['新品促销','限时打折'],
-                brand: '天猫',
                 introduce: 'AJ 鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
                 sendFee: '0.00',
                 payCount: '4.5万+',
@@ -166,7 +204,68 @@ export default {
                         name: '下雨**飞机',
                         content: '质量很好，没的说，高端大气上档次。这是第二次购买这双鞋了，穿着很舒服，很时尚，下次还会再来的。'
                     }
-                }
+                },
+                shop: {
+                    name: '帕马森旗舰店',
+                    img: 'static/goods/goods/shop.png',
+                    brand: '天猫',
+                    startCount: 5,
+                    goodsScore: '4.8',
+                    serverScore: '4.8',
+                    logisticsScore: '4.8',
+                    recommend: [
+                        {
+                            img: 'static/goods/goods/goodsRecommend1.jpg',
+                            introduce: '男鞋冬季休闲鞋加绒棉鞋小白鞋aj运动鞋跑步ins超火的鞋子男潮鞋',
+                            price: '139.00'
+                        },
+                        {
+                            img: 'static/goods/goods/goodsRecommend2.jpg',
+                            introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
+                            price: '158.00'
+                        },
+                        {
+                            img: 'static/goods/goods/goodsRecommend3.jpg',
+                            introduce: '冬季男鞋秋季潮鞋2018新款休闲鞋子男运动鞋韩版潮流英伦百搭板鞋',
+                            price: '299.00'
+                        },
+                        {
+                            img: 'static/goods/goods/goodsRecommend4.jpg',
+                            introduce: 'ins超火的男鞋秋季男港风老爹鞋冬季鞋子男潮鞋aj1网红跑步运动鞋',
+                            price: '120.00'
+                        },
+                        {
+                            img: 'static/goods/goods/goodsRecommend5.jpg',
+                            introduce: 'ins超火的鞋子男潮鞋冬季棉鞋运动鞋男鞋ulzzang原宿内增高老爹鞋',
+                            price: '366.00'
+                        },
+                        {
+                            img: 'static/goods/goods/goodsRecommend6.jpg',
+                            introduce: '网红AJ1男鞋高帮鞋韩版潮流运动嘻哈ins超火的鞋子男潮鞋高邦板鞋',
+                            price: '168.00'
+                        },
+                    ]
+                },
+                detailed: [
+                    'static/goods/goods/detailed1.jpg',
+                    'static/goods/goods/detailed2.jpg',
+                    'static/goods/goods/detailed3.jpg',
+                    'static/goods/goods/detailed4.jpg',
+                    'static/goods/goods/detailed5.jpg',
+                    'static/goods/goods/detailed6.jpg',
+                    'static/goods/goods/detailed7.jpg',
+                    'static/goods/goods/detailed8.jpg',
+                    'static/goods/goods/detailed9.jpg',
+                    'static/goods/goods/detailed10.jpg',
+                    'static/goods/goods/detailed11.jpg',
+                    'static/goods/goods/detailed12.jpg',
+                    'static/goods/goods/detailed14.jpg',
+                    'static/goods/goods/detailed15.jpg',
+                    'static/goods/goods/detailed16.jpg',
+                    'static/goods/goods/detailed17.jpg',
+                    'static/goods/goods/detailed18.jpg',
+                    'static/goods/goods/detailed19.png',
+                ]
             }
         }
     },
@@ -433,6 +532,111 @@ export default {
                     }
                 }
             }
+            .goods-shop{
+                display: flex;
+                flex-direction: column;
+                padding: 10px 5px 20px 5px;
+                border-bottom: 1px solid #E8E8E8;
+                .inf{
+                    display: flex;
+                    align-items: center;
+                    img{
+                        margin-right: 5px;
+                    }
+                    div{
+                        width: 45%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        p:nth-child(1){
+                            font-weight: bold;
+                        }
+                        p:nth-child(2){
+                            font-size: 10px;
+                            margin-top: 2px;
+                            i{
+                                font-size: 10px;
+                            }
+                            span:nth-child(1){
+                                background: #E80000;
+                                color: white;
+                                border-radius: 10px;
+                                padding: 0 5px;
+                            }
+                        }
+                    }
+                    .bt1{
+                        border: 1px solid #FF6600;
+                        color: #FF6600;
+                        border-radius: 15px;
+                        font-size: 10px;
+                        padding: 3px;
+                        margin-right: 10px;
+                    }
+                    .bt2{
+                        border: 1px solid #FF6600;
+                        background: #FF6600;
+                        color: white;
+                        border-radius: 15px;
+                        font-size: 10px;
+                        padding: 3px;
+                    }
+                }
+                .score{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 20px;
+                    color: #999;
+                }
+            }
+            .goods-recommend{
+                display: flex;
+                flex-direction: column;
+                padding: 10px 5px;
+                border-bottom: 10px solid #E8E8E8;
+                div{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                }
+                ul{
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                    li{
+                        width: 32%;
+                        text-align: left;
+                        margin-bottom: 15px;
+                        img{
+                            border-radius: 5px;
+                        }
+                        .p1{
+                            font-size: 10px;
+                            height: 2.7em;
+                            overflow: auto;
+                            text-align: left;
+                        }
+                        .p2{
+                            color: #FF6600;
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+            .goods-detailed-inf{
+                display: flex;
+                flex-direction: column;
+                padding: 10px 0;
+                border-bottom: 1px solid #E8E8E8;
+                background: #E8E8E8;
+                span{
+                    margin-bottom: 10px;
+                    padding-bottom: 5px;
+                    border-bottom: 1px solid #F8F8F8;
+                    color: #999;
+                }
+            }
         }
         .footer{
             height: 8%;
@@ -459,6 +663,7 @@ export default {
                     padding: 0 20px;
                     color: white;
                     font-weight: bold;
+                    font-size: 12px;
                 }
                 .bt1{
                     background: #FFA500;
