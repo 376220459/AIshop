@@ -1,7 +1,7 @@
 <template>
     <div class="goods-whole">
-        <div class="header">
-            <div class="headerNav1">
+        <div class="header" id="header">
+            <div class="headerNav1" :style="{display:headerNavDisplay[0],opacity:headerNavOpacity[0]}">
                 <span style="margin-left:10px;"><i class="iconfont icon-fanhui1"></i></span>
                 <div>
                     <span><i class="iconfont icon-cart"></i></span>
@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <div class="headerNav2" style="display:none">
+            <div class="headerNav2" :style="{display:headerNavDisplay[1],opacity:headerNavOpacity[1]}">
                 <i style="margin:0 70px 0 10px;" class="iconfont icon-fanhui1"></i>
                 <ul>
                     <li v-for="(item, index) in ['宝贝','评价','详细']" :key="index" :class="navClass[index]" @click="changeNav(index)">{{ item }}</li>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="content">
-            <div class="goods-wipe">
+            <div class="goods-wipe" id="wipe">
                 <mt-swipe :auto="0" :show-indicators="false" @change="changeWipe">
                     <mt-swipe-item v-for="(item, index) in goods.goodsImgs" :key="index" @click.native="click">
                         <img :src="item" alt="goods" width="100%" height="100%">
@@ -83,7 +83,8 @@
                 </div>
             </div>
 
-            <div class="goods-evaluate">
+            <div class="goods-evaluate" id="evaluate">
+                <span class="font">------------------------宝贝评价------------------------</span>
                 <div class="title">
                     <span>宝贝评价({{ goods.evaluate.allCount }})</span>
                     <span>查看全部＞</span>
@@ -132,9 +133,13 @@
                 </ul>
             </div>
 
-            <div class="goods-detailed-inf">
+            <div class="goods-detailed-inf" id="detailed">
                 <span>------------------------宝贝详情------------------------</span>
                 <img v-for="(item, index) in goods.detailed" v-lazy="item" width="100%" :key="index" alt="detailed">
+                <div class="top-tip" @click="toTop" :style="{display:topDisplay}">
+                    <i class="iconfont icon-dingbu"></i>
+                    <p>顶部</p>
+                </div>
             </div>
         </div>
 
@@ -164,6 +169,9 @@ export default {
     name: 'Goods',
     data(){
         return{
+            topDisplay: 'none',
+            headerNavDisplay: ['flex','none'],
+            headerNavOpacity: [1,1],
             navClass: [],
             nowCount: '1',
             goods: {
@@ -275,14 +283,67 @@ export default {
         }
     },
     methods: {
+        toTop(){
+            document.getElementById("wipe").scrollIntoView();
+        },
         changeNav(index){
-            this.navClass = [];
-            this.navClass[index] = 'nav-focus';
+            if(index == 0){
+                document.getElementById("wipe").scrollIntoView();
+                // window.scrollTo(0,0);
+            }else if(index == 1){
+                document.getElementById("evaluate").scrollIntoView();
+            }else{ 
+                document.getElementById("detailed").scrollIntoView();
+            }
         },
         changeWipe(index){
             // console.log(index);
             this.nowCount = index+1;
+        },
+        onScroll(){
+            // console.log(Math.abs(wipe.getBoundingClientRect().top))
+            
+            let header = document.getElementById('header');
+            let detailed = document.getElementById('detailed');
+            // console.log(Math.abs(detailed.getBoundingClientRect().top)-header.offsetHeight)
+            let wipe = document.getElementById('wipe');
+            let headerHeight = header.offsetHeight;
+            let swipTop = Math.abs(wipe.getBoundingClientRect().top);
+            let swipHeight = wipe.offsetHeight;
+            let evaluateTop = evaluate.getBoundingClientRect().top - headerHeight;
+            let detailedTop = detailed.getBoundingClientRect().top - headerHeight;
+
+            if(wipe.getBoundingClientRect().top <= 0 && evaluateTop > 0){
+                this.navClass = [];
+                this.navClass[0] = 'nav-focus';
+            }else if(evaluateTop <= 0 && detailedTop > 0){
+                this.navClass = [];
+                this.navClass[1] = 'nav-focus';
+            }else if(detailedTop <= 0){
+                this.navClass = [];
+                this.navClass[2] = 'nav-focus';
+            }
+
+            if(detailedTop <= 0){
+                this.topDisplay = 'flex';
+            }else{
+                this.topDisplay = 'none';
+            }
+
+            if(swipTop <= swipHeight*0.3){
+                this.headerNavDisplay = ['flex','none'];
+                this.headerNavOpacity.splice(0,1,1-swipTop/swipHeight*3)
+            }else if(swipTop <= swipHeight){
+                this.headerNavDisplay = ['none','flex'];
+                this.headerNavOpacity.splice(1,1,swipTop/swipHeight)
+            }else{
+                this.headerNavDisplay = ['none','flex'];
+                this.headerNavOpacity.splice(1,1,1)
+            }
         }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.onScroll, true);
     }
 }
 </script>
@@ -342,6 +403,7 @@ export default {
                     }
                 }
                 div{
+                    // margin-left: 40px;
                     i{
                         margin-right: 10px;
                     }
@@ -484,8 +546,15 @@ export default {
             .goods-evaluate{
                 display: flex;
                 flex-direction: column;
-                padding: 10px 5px;
+                padding: 15px 5px 10px 5px;
                 border-bottom: 10px solid #E8E8E8;
+                // background: #E8E8E8;
+                .font{
+                    margin-bottom: 10px;
+                    padding-bottom: 10px;
+                    border-bottom: 1px solid #F8F8F8;
+                    color: #999;
+                }
                 .title{
                     display: flex;
                     justify-content: space-between;
@@ -632,9 +701,27 @@ export default {
                 background: #E8E8E8;
                 span{
                     margin-bottom: 10px;
-                    padding-bottom: 5px;
+                    padding-bottom: 10px;
                     border-bottom: 1px solid #F8F8F8;
                     color: #999;
+                }
+                .top-tip{
+                    position: fixed;
+                    z-index: 100;
+                    bottom: 10%;
+                    right: 5%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    opacity: 0.8;
+                    width: 50px;
+                    height: 50px;
+                    background: #F0F0F0;
+                    border-radius: 50%;
+                    i{
+                        font-size: 20px;
+                    }
                 }
             }
         }

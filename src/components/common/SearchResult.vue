@@ -156,34 +156,50 @@ export default {
             },
             goodslist: [
                 {
-                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
                     label: ['','公益宝贝'],
-                    price: '3299.00',
-                    payCount: '18.1w',
+                    price: '888.00',
+                    payCount: '21.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
                     label: ['','公益宝贝'],
-                    price: '3299.00',
-                    payCount: '18.1w',
+                    price: '888.00',
+                    payCount: '21.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
                     label: ['','公益宝贝'],
-                    price: '3299.00',
-                    payCount: '18.1w',
+                    price: '888.00',
+                    payCount: '21.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
                 {
-                    introduce: '小米 4C 55英寸海量大片,杜比音效,高性能处理器',
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
                     label: ['','公益宝贝'],
-                    price: '3299.00',
-                    payCount: '18.1w',
+                    price: '888.00',
+                    payCount: '21.1w',
+                    address: '浙江 杭州',
+                    img: 'static/search/goods1.jpg'
+                },
+                {
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
+                    label: ['','公益宝贝'],
+                    price: '888.00',
+                    payCount: '21.1w',
+                    address: '浙江 杭州',
+                    img: 'static/search/goods1.jpg'
+                },
+                {
+                    introduce: 'aj鞋子男潮鞋高帮鞋男韩版潮流百搭板鞋高邦运动加绒男鞋冬季棉鞋',
+                    label: ['','公益宝贝'],
+                    price: '888.00',
+                    payCount: '21.1w',
                     address: '浙江 杭州',
                     img: 'static/search/goods1.jpg'
                 },
@@ -496,7 +512,8 @@ export default {
                         width: 100%;
                         display: flex;
                         margin-bottom: 10px;
-                        border-bottom: 1px dotted #999;
+                        padding-bottom: 5px;
+                        border-bottom: 1px dotted #E8E8E8;
                         img{
                             border-radius: 15px;
                             margin-right: 5px;
