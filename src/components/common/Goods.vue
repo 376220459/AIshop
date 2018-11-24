@@ -1,5 +1,81 @@
 <template>
     <div class="goods-whole">
+
+        <div class="cover" :style="{display:coverDisplay}" @click="hidden"></div>
+
+        <div class="discount-eject eject" :style="{display:discountDisplay,bottom:discountBottom+'rem'}">
+            <span class="eject-header">优惠</span>
+            <div class="eject-content">
+                <div class="eject-integral">
+                    <span style="color:#999;">促销</span>
+                    <p>
+                        <span>积分</span>
+                        <span>购买可得{{ goods.discount.integral }}积分</span>
+                    </p>
+                </div>
+
+                <div class="eject-coupon">
+                    <p>
+                        <span>领券</span>
+                        <span>已有积分:{{person.integral}}</span>
+                    </p>
+                    <div class="coupon" v-for="(item, index) in goods.discount.coupons" :key="index">
+                        <div>
+                            <span>￥<strong>{{ item.price }}</strong> 店铺优惠券</span>
+                            <span>满{{ item.condition }}使用</span>
+                            <span>有效期{{ item.term }}</span>
+                        </div>
+                        <div @click="getted(index)">{{ get[index] }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="eject-footer"><button @click="hidden">完成</button></div>
+        </div>
+
+        <div class="spec-eject eject" :style="{display:specDisplay,bottom:specBottom+'rem'}">
+            <div class="eject-inf">
+                <img height="95%" :src="goods.goodsImgs[0]" alt="goods">
+                <div>
+                    <span class="price">￥{{ goods.price }}</span>
+                    <span style="color:#999;margin:20px 0;">库存9999件</span>
+                    <span><span style="color:#999">您的选择：</span><span v-for="(item, index) in goods.specInf" :key="index">"{{item.name}}"</span></span>
+                </div>
+            </div>
+            <div class="eject-option">
+                <div class="option" v-for="(item, index) in goods.specInf" :key="index">
+                    <span class="name">{{ item.name }}</span>
+                    <div>
+                        <span v-for="(item2, index2) in item.class" :key="index2">{{ item2 }}</span>
+                    </div>
+                </div>
+                <div class="buy">
+                    <span class="count">购买数量</span>
+                    <div>
+                        <span @click="changeBuyCount('-')">－</span>
+                        <span>{{ buyCount }}</span>
+                        <span @click="changeBuyCount('+')">＋</span>
+                    </div>
+                </div>
+            </div>
+            <div class="eject-btn">
+                <button class="bt1">加入购物车</button>
+                <button class="bt2">立即购买</button>
+            </div>
+        </div>
+
+        <div class="parameter-eject eject" :style="{display:parameterDisplay,bottom:parameterBottom+'rem'}">
+            <span class="eject-header">产品参数</span>
+            <div class="eject-content">
+                <ul>
+                    <li v-for="(item, index) in goods.parameterInf" :key="index">
+                        <span style="wdith:50%">{{ item.name }}</span>
+                        <span>{{ item.inf }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="eject-footer"><button @click="hidden">完成</button></div>
+        </div>
+
         <div class="header" id="header">
             <div class="headerNav1" :style="{display:headerNavDisplay[0],opacity:headerNavOpacity[0]}">
                 <span style="margin-left:10px;"><i class="iconfont icon-fanhui1"></i></span>
@@ -51,7 +127,7 @@
             </div>
 
             <div class="goods-discount">
-                <div class="discount">
+                <div class="discount" @click="discountOut()">
                     <div>
                         <span style="color:#999;margin-right:20px">优惠</span>
                         <span>积分</span>
@@ -66,7 +142,7 @@
             </div>
 
             <div class="goods-parameter">
-                <div class="spec">
+                <div class="spec" @click="specOut">
                     <div>
                         <span style="color:#999;margin-right:20px">规格</span>
                         <span>选择 <strong>{{ goods.spec }}</strong></span>
@@ -74,7 +150,7 @@
                     <span style="color:#999;">＞</span>
                 </div>
 
-                <div class="parameter">
+                <div class="parameter"  @click="parameterOut()">
                     <div>
                         <span style="color:#999;margin-right:20px">参数</span>
                         <span>品牌 <strong>{{ goods.parameter }}</strong></span>
@@ -169,11 +245,23 @@ export default {
     name: 'Goods',
     data(){
         return{
+            buyCount: 1,
+            discountBottom: -15,
+            parameterBottom: -15,
+            specBottom: -15,
+            coverDisplay: '',
+            discountDisplay: 'none',
+            parameterDisplay: 'none',
+            specDisplay: 'none',
             topDisplay: 'none',
             headerNavDisplay: ['flex','none'],
             headerNavOpacity: [1,1],
             navClass: [],
             nowCount: '1',
+            get: [],
+            person: {
+                integral: '666'
+            },
             goods: {
                 goodsImgs: ['static/goods/goods/goods1.jpg','static/goods/goods/goods2.jpg','static/goods/goods/goods3.jpg','static/goods/goods/goods4.jpg','static/goods/goods/goods5.jpg',],
                 price: '888',
@@ -183,11 +271,95 @@ export default {
                 payCount: '4.5万+',
                 address: '福建 厦门',
                 discount: {
-                    coupons: [],
+                    coupons: [
+                        {
+                            price: '5',
+                            condition: '99',
+                            term: '2018.11.13-2018.12.11'
+                        },
+                        {
+                            price: '10',
+                            condition: '158',
+                            term: '2018.11.13-2018.12.11'
+                        },
+                        {
+                            price: '20',
+                            condition: '366',
+                            term: '2018.11.13-2018.12.11'
+                        },
+                    ],
                     integral: '234'
                 },
                 spec: '尺码，颜色',
+                specInf: [
+                    {
+                        name: '尺寸',
+                        class: ['38','39','40','41','42','43','44','45']
+                    },
+                    {
+                        name: '颜色',
+                        class: ['黑色','灰色','杏色','黑色【加绒版】','灰色【加绒版】','杏色【加绒版】']
+                    }
+                ],
                 parameter: '材质...',
+                parameterInf: [
+                    {
+                        name: '品牌',
+                        inf: '帕马森'
+                    },
+                    {
+                        name: '功能',
+                        inf: '保暖'
+                    },
+                    {
+                        name: '闭合方式',
+                        inf: '系带'
+                    },
+                    {
+                        name: '尺码',
+                        inf: '39 40 41 42 43 44'
+                    },
+                    {
+                        name: '图案',
+                        inf: '纯色'
+                    },
+                    {
+                        name: '风格',
+                        inf: '休闲'
+                    },
+                    {
+                        name: '细分风格',
+                        inf: '运动休闲'
+                    },
+                    {
+                        name: '流行元素',
+                        inf: '车缝线'
+                    },
+                    {
+                        name: '鞋跟高',
+                        inf: '低跟(1-3cm)'
+                    },
+                    {
+                        name: '颜色分类',
+                        inf: '黑色 灰色 杏色 黑色【加绒版】 灰色【加绒版】 杏色【加绒版】'
+                    },
+                    {
+                        name: '货号',
+                        inf: 'LQ027'
+                    },
+                    {
+                        name: '季节',
+                        inf: '冬季'
+                    },
+                    {
+                        name: '场合',
+                        inf: '运动休闲'
+                    },
+                    {
+                        name: '销售渠道类型',
+                        inf: '天猫独家(只在天猫销售)'
+                    }
+                ],
                 evaluate: {
                     allCount: '3.5w',
                     label: [
@@ -283,6 +455,68 @@ export default {
         }
     },
     methods: {
+        changeBuyCount(symbol){
+            if(symbol == '+' && this.buyCount < 9999){
+                this.buyCount++;
+            }else if(symbol == '-' && this.buyCount > 1){
+                this.buyCount--;
+            }
+        },
+        getted(index){
+            if(this.get[index] == '立即领取'){
+                this.$toast({
+                    message: '恭喜您成功抢到优惠券',
+                    duration: 1000
+                });
+                this.get.splice(index,1,'已领取');
+            }else{
+                this.$toast({
+                    message: '只能领取一次哦',
+                    duration: 1000
+                });
+            }
+        },
+        discountOut(){
+            this.coverDisplay = this.discountDisplay = 'block';
+            let that = this;
+            (function loop(){
+                if(that.discountBottom < 0){
+                    that.discountBottom += 1;
+                    setTimeout(() => {
+                        loop();
+                    },10);
+                }
+            })();
+        },
+        specOut(){
+            this.coverDisplay = this.parameterDisplay = this.specDisplay = 'block';
+            let that = this;
+            (function loop(){
+                if(that.specBottom < 0){
+                    that.specBottom += 1;
+                    setTimeout(() => {
+                        loop();
+                    },10);
+                }
+            })();
+        },
+        parameterOut(){
+            this.coverDisplay = this.parameterDisplay = 'block';
+            let that = this;
+            (function loop(){
+                if(that.parameterBottom < 0){
+                    that.parameterBottom += 1;
+                    setTimeout(() => {
+                        loop();
+                    },10);
+                }
+            })();
+        },
+        hidden(){
+            this.coverDisplay = 'none';
+            this.discountDisplay = this.parameterDisplay = this.specDisplay = 'none';
+            this.discountBottom = this.parameterBottom = this.specBottom = -15;
+        },
         toTop(){
             document.getElementById("wipe").scrollIntoView();
         },
@@ -344,6 +578,9 @@ export default {
     },
     mounted() {
         window.addEventListener('scroll', this.onScroll, true);
+        this.goods.discount.coupons.forEach(element => {
+            this.get.push('立即领取');
+        });
     }
 }
 </script>
@@ -351,6 +588,262 @@ export default {
 <style lang="scss" scoped>
     .goods-whole{
         height: 100%;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        .select{
+            color: #FF6600;
+        }
+        .eject{
+            height: 80%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            z-index: 100;
+            background: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .cover{
+            width:100%;
+            height: 100%;
+            display: none;
+            z-index: 99;
+            position: absolute;
+            background: #778899;
+            opacity: 0.6;
+        }
+        .discount-eject{
+            .eject-header{
+                height: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                font-size: 15px;
+            }
+            .eject-content{
+                height: 77%;
+                overflow: auto;
+                padding: 5px;
+                .eject-integral{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    p{
+                        margin-top: 10px;
+                        display: flex;
+                        align-items: center;
+                        span:nth-child(1){
+                            background: #FFCC99;
+                            color: 	#E80000;
+                            border-radius: 10px;
+                            padding: 0 5px;
+                            margin-right: 10px;
+                        }
+                        span:nth-child(2){
+                            font-weight: bold;
+                        }
+                    }
+                }
+                .eject-coupon{
+                    margin-top: 20px;
+                    p{
+                        color: #999;
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                    }
+                    .coupon{
+                        margin-bottom: 10px;
+                        display: flex;
+                        color: #E80000;
+                        div{
+                            background: #FFE4E1;
+                            border-radius: 15px;
+                            span{
+                                font-size: 9px;
+                                margin-bottom: 3px;
+                            }
+                            span:nth-child(1){
+                                font-size: 13px;
+                                strong{
+                                    font-size: 18px;
+                                }
+                            }
+                        }
+                        div:nth-child(1){
+                            width: 80%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            padding: 10px 5px 5px 5px;
+                            // border-right: 1px dotted #E80000;
+                        }
+                        div:nth-child(2){
+                            width: 20%;
+                            box-sizing: border-box;
+                            border: 1px dotted #E80000;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+            .eject-footer{
+                height: 9%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                button{
+                    background: #FFA500;
+                    width: 90%;
+                    height: 100%;
+                    border-radius: 20px;
+                    font-size: 15px;
+                    color: white;
+                }
+            }
+        }
+        .spec-eject{
+            .eject-inf{
+                height: 30%;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                img{
+                    border-radius: 5px;
+                }
+                div{
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                    margin-left: 20px;
+                    .price{
+                        color: #FF6600;
+                        font-size: 20px;
+                    }
+                }
+            }
+            .eject-option{
+                height: 55%;
+                overflow: auto;
+                .option{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    border-bottom: 1px solid #E8E8E8;
+                    padding: 10px 10px;
+                    .name{
+                        font-size: 15px;
+                        font-weight: bold;
+                        margin-bottom: 10px;
+                    }
+                    div{
+                        display: flex;
+                        flex-wrap: wrap;
+                        span{
+                            background: #E8E8E8;
+                            padding: 5px 20px;
+                            border-radius: 5px;
+                            margin-right: 10px;
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+                .buy{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px 10px;
+                    .count{
+                        font-size:15px;
+                        font-weight:bold;
+                    }
+                    div{
+                        display: flex;
+                        
+                        span{
+                            background: #E8E8E8;
+                            padding: 5px 20px;
+                            margin-right: 1px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+            .eject-btn{
+                height: 9%;
+                display: flex;
+                justify-content: center;
+                border-top: 1px solid #E8E8E8;
+                padding-top: 5px;
+                button{
+                    width: 48%;
+                    color: white;
+                }
+                .bt1{
+                    background: #FFA500;
+                    border-top-left-radius: 20px;
+                    border-bottom-left-radius: 20px;
+                }
+                .bt2{
+                    background: #FF6600;
+                    border-top-right-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                }
+            }
+        }
+        .parameter-eject{
+            .eject-header{
+                height: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                font-size: 18px;
+            }
+            .eject-content{
+                height: 77%;
+                overflow: auto;
+                padding: 5px;
+                ul{
+                    display: flex;
+                    flex-direction: column;
+                    li{
+                        width: 100%;
+                        border-bottom: 1px solid #E8E8E8;
+                        padding: 10px 0;
+                        display: flex;
+                        font-size: 15px;
+                        text-align: left;
+                        span:nth-child(1){
+                            width: 30%;
+                            font-weight: bold;
+                        }
+                        span:nth-child(2){
+                            width: 70%;
+                            color: #585858
+                        }
+                    }
+                }
+            }
+            .eject-footer{
+                height: 9%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                button{
+                    background: #FFA500;
+                    width: 90%;
+                    height: 100%;
+                    border-radius: 20px;
+                    font-size: 15px;
+                    color: white;
+                }
+            }
+        }
         .header{
             height: 8%;
             width: 100%;
