@@ -38,14 +38,14 @@
                 <div>
                     <span class="price">￥{{ goods.price }}</span>
                     <span style="color:#999;margin:20px 0;">库存9999件</span>
-                    <span><span style="color:#999">您的选择：</span><span v-for="(item, index) in goods.specInf" :key="index">"{{item.name}}"</span></span>
+                    <span><span style="color:#999">您的选择：</span><span v-for="(item, index) in optionSelect" :key="index">"{{item}}" </span></span>
                 </div>
             </div>
             <div class="eject-option">
                 <div class="option" v-for="(item, index) in goods.specInf" :key="index">
                     <span class="name">{{ item.name }}</span>
                     <div>
-                        <span v-for="(item2, index2) in item.class" :key="index2">{{ item2 }}</span>
+                        <span :style="optionStyle[index][index2]" @click="changeOption(index,index2,item2)" v-for="(item2, index2) in item.class" :key="index2">{{ item2 }}</span>
                     </div>
                 </div>
                 <div class="buy">
@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="eject-btn">
-                <button class="bt1">加入购物车</button>
-                <button class="bt2">立即购买</button>
+                <button class="bt1" @click="pushCart">加入购物车</button>
+                <button class="bt2" @click="buyGoods">立即购买</button>
             </div>
         </div>
 
@@ -78,21 +78,21 @@
 
         <div class="header" id="header">
             <div class="headerNav1" :style="{display:headerNavDisplay[0],opacity:headerNavOpacity[0]}">
-                <span style="margin-left:10px;"><i class="iconfont icon-fanhui1"></i></span>
+                <span style="margin-left:10px;"><i class="iconfont icon-fanhui1" @click="goBack"></i></span>
                 <div>
                     <span><i class="iconfont icon-cart"></i></span>
-                    <span><i class="iconfont icon-home"></i></span>
+                    <span><i class="iconfont icon-home" @click="goHome"></i></span>
                 </div>
             </div>
 
             <div class="headerNav2" :style="{display:headerNavDisplay[1],opacity:headerNavOpacity[1]}">
-                <i style="margin:0 70px 0 10px;" class="iconfont icon-fanhui1"></i>
+                <i style="margin:0 70px 0 10px;" class="iconfont icon-fanhui1" @click="goBack"></i>
                 <ul>
                     <li v-for="(item, index) in ['宝贝','评价','详细']" :key="index" :class="navClass[index]" @click="changeNav(index)">{{ item }}</li>
                 </ul>
                 <div>
                     <i class="iconfont icon-cart"></i>
-                    <i class="iconfont icon-home"></i>
+                    <i class="iconfont icon-home" @click="goHome"></i>
                 </div>
             </div>
         </div>
@@ -145,7 +145,8 @@
                 <div class="spec" @click="specOut">
                     <div>
                         <span style="color:#999;margin-right:20px">规格</span>
-                        <span>选择 <strong>{{ goods.spec }}</strong></span>
+                        <!-- <span>选择 <strong>{{ goods.spec }}</strong></span> -->
+                        <span>选择 <strong v-for="(item, index) in optionSelect" :key="index">"{{item}}" </strong></span>
                     </div>
                     <span style="color:#999;">＞</span>
                 </div>
@@ -228,13 +229,13 @@
                 <i class="iconfont icon-service"></i>    
                 <p>客服</p>
             </span>    
-            <span>
-                <i class="iconfont icon-shoucang"></i>    
+            <span @click="changeCollect">
+                <i class="iconfont icon-xingxing" :style="{color:collectionColor}"></i>    
                 <p>收藏</p>
             </span>
             <div>
-                <button class="bt1">加入购物车</button>
-                <button class="bt2">立即购买</button>
+                <button class="bt1" @click="pushCart">加入购物车</button>
+                <button class="bt2" @click="buyGoods">立即购买</button>
             </div>
         </div>
     </div>
@@ -245,6 +246,9 @@ export default {
     name: 'Goods',
     data(){
         return{
+            optionStyle: [],
+            optionSelect: [],
+            optionFlag: [],
             buyCount: 1,
             discountBottom: -15,
             parameterBottom: -15,
@@ -270,6 +274,7 @@ export default {
                 sendFee: '0.00',
                 payCount: '4.5万+',
                 address: '福建 厦门',
+                isCollect: true,
                 discount: {
                     coupons: [
                         {
@@ -452,9 +457,69 @@ export default {
     computed:{
         allCount(){
             return this.goods.goodsImgs.length;
+        },
+        collectionColor(){
+            return this.goods.isCollect == true ? '#FF6600' : '';
         }
     },
     methods: {
+        goBack(){
+            history.back();
+        },
+        goHome(){
+            this.$router.push({path:'/'});
+        },
+        changeCollect(){
+            if(this.goods.isCollect == true){
+                this.goods.isCollect = false;
+                this.$toast({
+                    message: '已取消收藏',
+                    duration: 1000
+                })
+            }else{
+                this.goods.isCollect = true;
+                this.$toast({
+                    message: '已收藏',
+                    duration: 1000
+                })
+            }
+        },
+        pushCart(){
+            if(this.optionFlag.indexOf(0) != -1){
+                this.$toast({
+                    message: '请选择完整规格',
+                    duration: 1000
+                });
+            }else{
+                this.$toast({
+                    message: '加入购物车成功',
+                    duration: 1000
+                });
+                this.hidden();
+            } 
+        },
+        buyGoods(){
+            if(this.optionFlag.indexOf(0) != -1){
+                this.$toast({
+                    message: '请选择完整规格',
+                    duration: 1000
+                });
+            }else{
+                this.$toast({
+                    message: '购买成功',
+                    duration: 1000
+                });
+                this.hidden();
+            } 
+        },
+        changeOption(index,index2,item2){
+            this.optionFlag.splice(index,1,1);
+            this.optionSelect.splice(index,1,item2);
+            this.goods.specInf[index].class.forEach((item,index3)=>{
+                this.optionStyle[index].splice(index3,1,'')
+            })
+            this.optionStyle[index].splice(index2,1,"color:#FF6600;background:#FFE4E1;border:1px solid #FF6600");
+        },
         changeBuyCount(symbol){
             if(symbol == '+' && this.buyCount < 9999){
                 this.buyCount++;
@@ -575,6 +640,22 @@ export default {
                 this.headerNavOpacity.splice(1,1,1)
             }
         }
+    },
+    created() {
+        this.goods.specInf.forEach(item=>{
+            this.optionSelect.push(item.name);
+            this.optionFlag.push(0);
+        })
+        this.goods.specInf.forEach((item,index)=>{
+            // this.optionStyle.push([]);
+            let arr = [];
+            item.class.forEach(item2=>{
+                // this.optionStyle[index].push('');
+                arr.push('');
+            })
+            this.optionStyle.push(arr);
+        })
+        // console.log(this.optionStyle);
     },
     mounted() {
         window.addEventListener('scroll', this.onScroll, true);
@@ -746,6 +827,7 @@ export default {
                         span{
                             background: #E8E8E8;
                             padding: 5px 20px;
+                            border: 1px solid #E8E8E8;
                             border-radius: 5px;
                             margin-right: 10px;
                             margin-bottom: 10px;
