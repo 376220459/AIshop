@@ -63,10 +63,12 @@ export default {
         height: 100%;
         ul{
             height: 100%;
-            display: grid;
-            grid-template: 1fr / 1fr 1fr 1fr 1fr;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            box-sizing: border-box;
+            border-top: 1px solid white;
             li{
-                list-style: none;
                 box-sizing: border-box;
                 i{
                     font-size: 2em;

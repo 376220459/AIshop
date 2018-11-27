@@ -17,8 +17,8 @@ Vue.component(TabContainerItem.name, TabContainerItem)
 Vue.use(InfiniteScroll)
 Vue.use(Lazyload, {
   preLoad: 1.3,
-  error: '/static/goods/goods/loading.gif',
-  loading: '/static/goods/goods/loading.gif',
+  error: 'static/goods/goods/loading.gif',
+  loading: 'static/goods/goods/loading.gif',
   attempt: 1
 })
 Vue.prototype.$toast = Toast

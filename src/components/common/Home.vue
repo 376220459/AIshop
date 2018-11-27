@@ -19,7 +19,7 @@
                 <div class="hot-wipe">
                     <mt-swipe :auto="3000">
                         <mt-swipe-item v-for="(item, index) in hotImgs" :key="index" @click.native="click">
-                            <img :src="item" alt="hot" width="90%" height="100%" style="border-radius: 15px">
+                            <img :src="item" alt="hot" width="100%" height="100%">
                         </mt-swipe-item>
                     </mt-swipe>
                 </div>
@@ -28,7 +28,7 @@
                     <span>每日推荐</span>
                     <ul>
                         <li v-for="(item, index) in recommendImgs" :key="index" @click="click">
-                            <img :src="item" alt="recommend" width="100%">
+                            <img :src="item" alt="recommend" width="100%" style="border-radius:10px">
                         </li>
                     </ul>
                 </div>
@@ -127,7 +127,7 @@ export default {
             storageOthers: [],
             hotGoods: ['长靴','打底裤','牛仔裤','电饭锅','折扣','苹果'],
             hotImgs: ['static/swipe/home/hot1.jpg','static/swipe/home/hot2.jpg','static/swipe/home/hot3.jpg'],
-            recommendImgs: ['static/recommend/home/recommend1.jpg','static/recommend/home/recommend2.jpg','static/recommend/home/recommend3.jpg','static/recommend/home/recommend4.jpg','static/recommend/home/recommend3.jpg','static/recommend/home/recommend4.jpg'],
+            recommendImgs: ['static/recommend/home/recommend1.jpg','static/recommend/home/recommend2.jpg','static/recommend/home/recommend3.jpg','static/recommend/home/recommend4.jpg','static/recommend/home/recommend5.jpg','static/recommend/home/recommend6.jpg'],
             favouriteGoods: [
                 {
                     name: '外星人笔记本',
@@ -463,17 +463,18 @@ export default {
         // background: url(/static/back/home.png);
         // background-size: cover;
         // background: #f1a775;
-        background: gainsboro;
+        background: #F0F0F0;
+        display: grid;
+        grid-template: 9fr 1fr / 1fr;
         .footer{
-            height: 10%;
             ul{
                 li:nth-child(1){
-                    color: #26a2ff;transform: scale(0.9)
+                    color: #FF6600;
+                    transform: scale(0.9)
                 }
             }
         }
         .home-content{
-            height: 90%;
             width: 100%;
             overflow: auto;
             // list-style: none;
@@ -481,6 +482,7 @@ export default {
                 height: 10%;
                 display: flex;
                 justify-content: center;
+                background: #FF9966;
                 .search-content{
                     // height: 100%;
                     width: 70%;
@@ -491,14 +493,14 @@ export default {
                         margin-left: 5px;
                     }
                     i:active{
-                        color: #26a2ff;
+                        color: 	#FFB6C1;
                     }
                     input{
                         height: 2em;
                         width: 80%;
                         // outline: none;
                         // background: transparent;
-                        border: 1px solid #FF6600;
+                        border: 1px solid #C0C0C0;
                         border-radius: 18px;
                         padding: 2px 0 2px 10px;
                         font-size: 1em;
@@ -513,9 +515,10 @@ export default {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin-bottom: 5px;
+                    padding-bottom: 5px;
+                    background: #FF9966;
                     i{
-                        color: #FF6600;
+                        color: rgba(255,0,0,0.3);
                         font-size: 2em;
                         margin-right: 5px;
                     }
@@ -527,18 +530,17 @@ export default {
                         flex-wrap: wrap;
                         li{
                             height: 1.5em;
-                            // list-style: none;
-                            border: 1px solid #FF6600;
+                            color:white;
                             border-radius: 10px;
                             margin: 3px 5px;
                             padding: 2px;
-                            background: #FF6600;
+                            background: rgba(255,0,0,0.2);
                         }
                     }
                 }
                 .hot-wipe{
-                    height: 35%;
-                    margin: 5px 0;
+                    height: 40%;
+                    margin-bottom: 5px;
                     display: flex;
                     align-items: center;
                     .mint-swipe{
@@ -548,8 +550,6 @@ export default {
                 }
                 .recommend{
                     ul{
-                        // height: 95%;
-                        // width: 100%;
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: space-around;
@@ -572,6 +572,7 @@ export default {
                             // list-style: none;
                             width: 50%;
                             border: 1px solid rgb(202, 194, 194);
+                            border-radius: 10px;
                             border-top: 0;
                             display: grid;
                             grid-template: 1fr / 1fr 1fr;
@@ -594,18 +595,18 @@ export default {
                 .goods{
                     .goods-nav{
                         position:sticky;
-                        top:0;
+                        top: -1px;
                         ul{
                             display: flex;
                             justify-content: space-around;
-                            // background: #f1a775;
-                            background: gainsboro;
-                            border-top: 1px solid white;
+                            background: #F0F0F0;
                             border-bottom: 1px solid white;
+                            border-bottom-left-radius: 5px;
+                            border-bottom-right-radius: 5px;
                             li{
                                 display: flex;
                                 align-items: center;
-                                border-right: 1px solid #999;
+                                border-right: 1px solid white;
                                 padding: 2px 23px;
                                 height: 3em;
                             }
@@ -625,13 +626,14 @@ export default {
                         li{
                             background: white;
                             box-sizing: border-box;
-                            // list-style: none;
                             width: 50%;
-                            border: 1px solid rgb(202, 194, 194);
+                            border: 1px solid #F0F0F0;
+                            border-radius: 5px;
                             border-top: 0;
                             display: flex;
                             flex-direction: column;
                             align-items: center;
+                            justify-content: space-between;
                             div{
                                 margin-bottom: 5px;
                             }
@@ -651,11 +653,11 @@ export default {
                                 text-align: left;
                                 word-wrap: break-word;
                                 overflow: auto;
-                                height: 2.5em;
+                                height: 2.4em;
                             }
                         }
                         .goods-loading{
-                            background:gray;
+                            background:#E0E0E0;
                             width:100%;
                             height:50px;
                             display:flex;

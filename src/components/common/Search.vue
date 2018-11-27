@@ -115,6 +115,7 @@ export default {
                 padding: 5px 10px;
                 border-radius: 15px;
                 background: #FF6600;
+                font-size: 15px;
             }
             button:active{
                 background: #999;

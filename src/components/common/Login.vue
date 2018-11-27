@@ -32,7 +32,8 @@ export default {
     methods: {
         login(){
             let whole = document.getElementById('whole');
-            if(this.username == 'admin' && this.password == 'admin'){
+            // if(this.username == 'admin' && this.password == 'admin'){
+            if(this.username == ''){
                 this.$store.state.id = 1;
                 whole.style.animationPlayState = 'running';
                 this.$loading.open({
@@ -75,7 +76,7 @@ export default {
         height: 100%;
         display: grid;
         grid-template: 1fr 1fr 1fr / 1fr;
-        background: url(/static/back/login-back.jpeg);
+        background: url(../../../static/back/login-back.jpeg);
         background-size: cover;
         animation: login 0.8s;
         animation-iteration-count:infinite;

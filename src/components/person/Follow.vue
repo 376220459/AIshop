@@ -25,7 +25,8 @@ export default {
         .footer{
             ul{
                 li:nth-child(2){
-                    color: #26a2ff;transform: scale(0.9)
+                    color: #FF6600;
+                    transform: scale(0.9)
                 }
             }
         }

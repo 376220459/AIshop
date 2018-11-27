@@ -662,7 +662,10 @@ export default {
         this.goods.discount.coupons.forEach(element => {
             this.get.push('立即领取');
         });
-    }
+    },
+    destroyed(){
+        window.removeEventListener('scroll', this.onScroll,true);//卸载页面滚动事件
+    },
 }
 </script>
 
