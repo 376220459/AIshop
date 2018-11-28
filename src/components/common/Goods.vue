@@ -80,7 +80,7 @@
             <div class="headerNav1" :style="{display:headerNavDisplay[0],opacity:headerNavOpacity[0]}">
                 <span style="margin-left:10px;"><i class="iconfont icon-fanhui1" @click="goBack"></i></span>
                 <div>
-                    <span><i class="iconfont icon-cart"></i></span>
+                    <span><i class="iconfont icon-cart" @click="goCart"></i></span>
                     <span><i class="iconfont icon-home" @click="goHome"></i></span>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                     <li v-for="(item, index) in ['宝贝','评价','详细']" :key="index" :class="navClass[index]" @click="changeNav(index)">{{ item }}</li>
                 </ul>
                 <div>
-                    <i class="iconfont icon-cart"></i>
+                    <i class="iconfont icon-cart" @click="goCart"></i>
                     <i class="iconfont icon-home" @click="goHome"></i>
                 </div>
             </div>
@@ -465,6 +465,9 @@ export default {
     methods: {
         goBack(){
             history.back();
+        },
+        goCart(){
+            this.$router.push({path:'cart'});
         },
         goHome(){
             this.$router.push({path:'/'});

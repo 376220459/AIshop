@@ -74,6 +74,7 @@ export default {
 <style lang="scss" scoped>
     .login-whole{
         height: 100%;
+        // height: 100vh;
         display: grid;
         grid-template: 1fr 1fr 1fr / 1fr;
         background: url(../../../static/back/login-back.jpeg);

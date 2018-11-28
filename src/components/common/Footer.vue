@@ -18,22 +18,22 @@ export default {
         return{
             navItems: [
                 {
-                    icon: 'iconfont icon-home',
+                    icon: 'iconfont icon-shouye1',
                     name: '首页',
                     path: '/home',
                 },
                 {
-                    icon: 'iconfont icon-favor',
+                    icon: 'iconfont icon-Collection',
                     name: '关注',
                     path: '/follow',
                 },
                 {
-                    icon: 'iconfont icon-cart',
+                    icon: 'iconfont icon-gouwuche',
                     name: '购物车',
                     path: '/cart',
                 },
                 {
-                    icon: 'iconfont icon-my_light',
+                    icon: 'iconfont icon-wode',
                     name: '我的',
                     path: '/person',
                 },

@@ -2,16 +2,9 @@
     <div class="cart-whole">
         <div class="cart-content">
             <div class="content">
-                <!-- <div class="title">
-                    <span>
-                        <strong>购物车</strong>
-                        <button @click="changeButton">{{ btnName }}</button>
-                    </span>
-                    <p>共 <strong>{{ allgoodsCount() }}</strong> 件宝贝</p>
-                </div> -->
                 <div class="title">
                     <div>
-                        <h1>购物车</h1>
+                        <h2>购物车</h2>
                         <p>(共 <strong>{{ allgoodsCount() }}</strong> 件宝贝)</p>
                     </div>
                     <button @click="changeButton">{{ btnName }}</button>
@@ -395,10 +388,10 @@ export default {
                 flex-direction: column;
                 align-items: center;
                 .title{
-                    height: 30%;
+                    height: 25%;
                     width: 100%;
                     padding: 10px;
-                    background: #FF6600;
+                    background: #FF9966;
                     font-size: 15px;
                     color: white;
                     display:flex;
@@ -406,7 +399,7 @@ export default {
                     align-items:center;
                     button{
                         position: absolute;
-                        top: 10px;
+                        top: 5px;
                         right: 10px;
                         font-size: 18px;
                         font-weight: bold;

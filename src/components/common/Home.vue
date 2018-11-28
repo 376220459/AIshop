@@ -50,11 +50,11 @@
                     <!-- <span>随便看看</span> -->
                     <div class="goods-nav">
                         <ul>
-                            <li @click="goodsNavIfChange(0)" :style="goodsNavStyles[0]">全部</li>
-                            <li @click="goodsNavIfChange(1)" :style="goodsNavStyles[1]">热销</li>
-                            <li @click="goodsNavIfChange(2)" :style="goodsNavStyles[2]">衣服</li>
-                            <li @click="goodsNavIfChange(3)" :style="goodsNavStyles[3]">电子</li>
-                            <li @click="goodsNavIfChange(4)" :style="goodsNavStyles[4]">其他</li>
+                            <li @click="goodsNavIfChange(0)" :style="goodsNavStyles[0]">|全部|</li>
+                            <li @click="goodsNavIfChange(1)" :style="goodsNavStyles[1]">|热销|</li>
+                            <li @click="goodsNavIfChange(2)" :style="goodsNavStyles[2]">|衣服|</li>
+                            <li @click="goodsNavIfChange(3)" :style="goodsNavStyles[3]">|电子|</li>
+                            <li @click="goodsNavIfChange(4)" :style="goodsNavStyles[4]">|其他|</li>
                         </ul>
                     </div>
 
@@ -392,11 +392,11 @@ export default {
     },
     computed: {
         goodsNavStyles(){
-            let styleWhole = this.goodsNavIf[0]==true?'color:red;font-weight:bold':'';
-            let styleHot = this.goodsNavIf[1]==true?'color:red;font-weight:bold':'';
-            let styleClothes = this.goodsNavIf[2]==true?'color:red;font-weight:bold':'';
-            let styleElectrical = this.goodsNavIf[3]==true?'color:red;font-weight:bold':'';
-            let styleOthers = this.goodsNavIf[4]==true?'color:red;font-weight:bold':'';
+            let styleWhole = this.goodsNavIf[0]==true?'color:#FF6600;font-weight:bold':'';
+            let styleHot = this.goodsNavIf[1]==true?'color:#FF6600;font-weight:bold':'';
+            let styleClothes = this.goodsNavIf[2]==true?'color:#FF6600;font-weight:bold':'';
+            let styleElectrical = this.goodsNavIf[3]==true?'color:#FF6600;font-weight:bold':'';
+            let styleOthers = this.goodsNavIf[4]==true?'color:#FF6600;font-weight:bold':'';
             return [styleWhole,styleHot,styleClothes,styleElectrical,styleOthers];
         }
     },
@@ -539,10 +539,12 @@ export default {
                     }
                 }
                 .hot-wipe{
-                    height: 40%;
+                    height: 222px;
+                    width: 100%;
                     margin-bottom: 5px;
                     display: flex;
                     align-items: center;
+                    background: #FF9966;
                     .mint-swipe{
                         height: 95%;
                         width: 100%;
@@ -599,24 +601,20 @@ export default {
                         ul{
                             display: flex;
                             justify-content: space-around;
-                            background: #F0F0F0;
-                            border-bottom: 1px solid white;
-                            border-bottom-left-radius: 5px;
-                            border-bottom-right-radius: 5px;
+                            // background: #F0F0F0;
+                            background: #FFFFFF;
+                            // border-bottom: 1px solid #FF6600;
+                            border-radius: 5px;
                             li{
                                 display: flex;
                                 align-items: center;
-                                border-right: 1px solid white;
+                                // border-right: 1px solid rgba(255,0,0,0.2);
                                 padding: 2px 23px;
                                 height: 3em;
                             }
                             li:nth-child(5){
                                 border-right: 0;
                             }
-                            // li:hover{
-                            //     color: red;
-                            //     font-weight:bold;
-                            // }
                         }
                     }
                     .goods-whole{
