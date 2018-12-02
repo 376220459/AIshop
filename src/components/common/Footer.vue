@@ -42,17 +42,20 @@ export default {
     },
     methods: {
         navClick(index){
-            if(index!=0 && !this.$store.state.id){
-                this.$toast({
-                    message: '您好像还没有登陆哦~',
-                    duration: 2000
-                });
-                this.$router.push({path:'/login'});
-            }else{
-                this.$router.push({
-                    path: this.navItems[index].path
-                });
-            }
+            this.$router.push({
+                path: this.navItems[index].path
+            });
+            // if(index!=0 && !this.$store.state.id){
+            //     this.$toast({
+            //         message: '您好像还没有登陆哦~',
+            //         duration: 2000
+            //     });
+            //     this.$router.push({path:'/login'});
+            // }else{
+            //     this.$router.push({
+            //         path: this.navItems[index].path
+            //     });
+            // }
         }
     }
 }
@@ -70,6 +73,7 @@ export default {
             border-top: 1px solid white;
             li{
                 box-sizing: border-box;
+                color: #999;
                 i{
                     font-size: 2em;
                 }

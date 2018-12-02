@@ -351,6 +351,7 @@ export default {
             .content{
                 height: 86%;
                 overflow: auto;
+                
                 .goods-type,.goods-server,.goods-range{
                     display: flex;
                     flex-direction: column;
@@ -367,31 +368,7 @@ export default {
                         padding-bottom: 10px;
                         border-bottom: 1px dotted #999;
                         li{
-                            width: 25%;
-                            background: #F8F8F8;
-                            padding: 10px;
-                            border-radius: 10px;
-                            margin: 5px 2px;
-                        }
-                    }
-                }
-                .goods-type,.goods-server,.goods-range{
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    padding: 10px 5px;
-                    span{
-                        margin-bottom: 10px;
-                    }
-                    ul{
-                        display: flex;
-                        flex-wrap: wrap;
-                        // justify-content: space-around;
-                        align-items: center;
-                        padding-bottom: 10px;
-                        border-bottom: 1px dotted #999;
-                        li{
-                            width: 25%;
+                            width: 31%;
                             background: #F8F8F8;
                             padding: 10px;
                             border-radius: 10px;

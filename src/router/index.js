@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Home from '@/components/common/Home'
 import Cart from '@/components/person/Cart'
 import Follow from '@/components/person/Follow'
 import Person from '@/components/person/Person'
+import Collect from '@/components/person/Collect'
+import ShopFollow from '@/components/person/ShopFollow'
+import Address from '@/components/person/Address'
+import AddAddress from '@/components/person/AddAddress'
+import Home from '@/components/common/Home'
 import Login from '@/components/common/Login'
 import Register from '@/components/common/Register'
 import Search from '@/components/common/Search'
@@ -65,6 +69,26 @@ export default new Router({
       path: '/goods',
       name: 'Goods',
       component: Goods
+    },
+    {
+      path: '/collect',
+      name: 'Collect',
+      component: Collect
+    },
+    {
+      path: '/shop-follow',
+      name: 'ShopFollow',
+      component: ShopFollow
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: Address
+    },
+    {
+      path: '/add-address',
+      name: 'AddAddress',
+      component: AddAddress
     }
   ]
 })

@@ -290,6 +290,7 @@ export default {
                         }
                         .praise{
                             i{
+                                font-size: 15px;
                                 font-weight: bold;
                                 margin-right: 5px;
                             }

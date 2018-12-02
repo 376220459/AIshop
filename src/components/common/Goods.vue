@@ -814,7 +814,7 @@ export default {
                 }
             }
             .eject-option{
-                height: 55%;
+                height: 58%;
                 overflow: auto;
                 .option{
                     display: flex;
@@ -855,21 +855,22 @@ export default {
                         span{
                             background: #E8E8E8;
                             padding: 5px 20px;
-                            margin-right: 1px;
+                            margin: 0 1px;
                             border-radius: 5px;
                         }
                     }
                 }
             }
             .eject-btn{
-                height: 9%;
+                height: 12%;
                 display: flex;
                 justify-content: center;
                 border-top: 1px solid #E8E8E8;
-                padding-top: 5px;
+                padding: 5px 0;
                 button{
                     width: 48%;
                     color: white;
+                    font-size: 15px;
                 }
                 .bt1{
                     background: #FFA500;
