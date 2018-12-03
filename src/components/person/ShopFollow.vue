@@ -1,12 +1,12 @@
 <template>
-    <div class="shop-follow-whole">
+    <div class="shop-follow-whole" :style="{right:wholeRight+'%'}">
         <header>
             <i class="iconfont icon-fanhui1" @click="goBack"></i>
             <p>我的关注({{ allFollowCount }})</p>
         </header>
         <div class="follow-content">
             <ul>
-                <li v-for="(item, index) in follow" :key="index">
+                <li v-for="(item, index) in follow" :key="index" @click="goShop">
                     <div class="shop-inf">
                         <img :src="item.img" alt="shop" width="20%" height="100%">
                         <p class="name">{{ item.name }}</p>
@@ -27,6 +27,7 @@ export default {
     name: 'ShopFollow',
     data(){
         return{
+            wholeRight: 0,
             follow: [
                 {
                     name: '特步官方旗舰店',
@@ -55,8 +56,29 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back(); 
+            }, 200);
+        },
+        goShop(){
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/shop'})
+            }, 200);
         }
     }
 }
@@ -66,6 +88,7 @@ export default {
     .shop-follow-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 10%;
             background: #FF9966;

@@ -1,5 +1,5 @@
 <template>
-    <div class="searchresult-whole" id="resultWhole">
+    <div class="searchresult-whole" id="resultWhole" :style="{right:wholeRight+'%'}">
         <div class="select-list" :style="{right:selectRight+'rem',display:selectDisplay}">
             <span class="title">筛选</span>
             <div class="content">
@@ -39,7 +39,7 @@
 
         <div class="search">
             <i class="iconfont icon-fanhui" @click="goBack"></i>
-            <input type="text" v-model="searchContent" @focus="goBack">
+            <input type="text" v-model="searchContent" @focus="toSearch()">
             <i class="iconfont icon-home" @click="goHome" style="color: #FFA500 "></i>
         </div>
 
@@ -63,7 +63,7 @@
             </div>
             <div class="list">
                 <ul>
-                    <li v-for="(item, index) in goodslist" :key="index" @click="toGoods">
+                    <li v-for="(item, index) in goodslist" :key="index" @click="goGoods">
                         <img height="100%" :src="item.img" alt="goods">
                         <div class="goods-inf">
                             <p>{{ item.introduce }}</p>
@@ -95,9 +95,9 @@
                         <button @click="goShop">进店</button>
                     </div>
                     <div>
-                        <img height="75%" :src="item.goods1" alt="goods1">
-                        <img height="75%" :src="item.goods2" alt="goods2">
-                        <img height="75%" :src="item.goods3" alt="goods3">
+                        <img height="75%" :src="item.goods1" alt="goods1" @click="goGoods">
+                        <img height="75%" :src="item.goods2" alt="goods2" @click="goGoods">
+                        <img height="75%" :src="item.goods3" alt="goods3" @click="goGoods">
                     </div>
                     <div>
                         <span>#{{ item.year }}年店铺</span>
@@ -114,6 +114,7 @@ export default {
     name: 'Search',
     data(){
         return{
+            wholeRight: 0,
             goodsTypeStyle: [],
             goodsServerStyle: [],
             goodsRangeStyle: [],
@@ -254,8 +255,29 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
+        goGoods(){
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path:'/goods'}); 
+            }, 200);
+        },
         goShop(){
-            this.$router.push({path: '/shop'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/shop'}); 
+            }, 200);
         },
         changeGoodsType(item,index){
             this.goodsTypeStyle = [];
@@ -292,10 +314,19 @@ export default {
         changeShopNav(shopNav){
             this.shopNav = shopNav;
         },
-        goBack(){
+        toSearch(){
             let resultWhole = document.getElementById('resultWhole');
             resultWhole.style.display = 'none';
             this.$router.push({path:'/search',query:{goods: this.searchContent}});
+        },
+        goBack(){
+            this.rightMove();
+            setTimeout(() => {
+                let resultWhole = document.getElementById('resultWhole');
+                resultWhole.style.display = 'none';
+                this.$router.push({path:'/search',query:{goods: this.searchContent}});
+            }, 200);
+            
         },
         goHome(){
             this.$router.push({path:'/home'});
@@ -314,9 +345,6 @@ export default {
             this.selectDisplay = 'none';
             this.coverDisplay = 'none';
             this.selectRight = -8;
-        },
-        toGoods(){
-            this.$router.push({path:'/goods'});
         }
     },
     mounted() {
@@ -333,7 +361,6 @@ export default {
         background: #F0F0F0;
         overflow: hidden;
         position: relative;
-
         .select-list{
             height: 100%;
             width: 80%;

@@ -1,5 +1,5 @@
 <template>
-    <div class="goods-whole">
+    <div class="goods-whole" :style="{right:wholeRight+'%'}">
 
         <div class="cover" :style="{display:coverDisplay}" @click="hidden"></div>
 
@@ -246,6 +246,7 @@ export default {
     name: 'Goods',
     data(){
         return{
+            wholeRight: 0,
             optionStyle: [],
             optionSelect: [],
             optionFlag: [],
@@ -463,6 +464,18 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         tip(){
             this.$toast({
                 message: '此功能未开放',
@@ -470,7 +483,10 @@ export default {
             });
         },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back();
+            }, 200);
         },
         goCart(){
             this.$router.push({path:'/cart'});
@@ -482,7 +498,10 @@ export default {
             this.$router.push({path:'/goods'});
         },
         goShop(){
-            this.$router.push({path:'/shop'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path:'/shop'});
+            }, 200);
         },
         changeCollect(){
             if(this.goods.isCollect == true){
@@ -1360,4 +1379,3 @@ export default {
         }
     }
 </style>
-

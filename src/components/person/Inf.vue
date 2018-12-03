@@ -1,5 +1,5 @@
 <template>
-    <div class="inf-whole">
+    <div class="inf-whole" :style="{right:wholeRight+'%'}">
         <mt-actionsheet :actions="sex" v-model="sheetVisible" cancelText=""></mt-actionsheet>
         <header>
             <i @click="goBack" class="iconfont icon-fanhui"></i>
@@ -41,6 +41,7 @@ export default {
     name: 'Inf',
     data(){
         return{
+            wholeRight: 0,
             img: '',
             sheetVisible: false,
             sex: [
@@ -75,8 +76,17 @@ export default {
         }
     },
     methods: {
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back();  
+            }, 200);
         },
         changeImg(){
             let upload = document.getElementById('upload');
@@ -142,6 +152,7 @@ export default {
     .inf-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 10%;
             display: flex;

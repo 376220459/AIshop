@@ -1,5 +1,5 @@
 <template>
-    <div class="follow-whole">
+    <div class="follow-whole" :style="{right:wholeRight+'%'}">
         <div class="follow-content">
             <header>
                 <h2>店铺动态</h2>
@@ -7,7 +7,7 @@
 
             <div class="content">
                 <div class="dynamic" v-for="(item, index) in storage" :key="index">
-                    <div class="title">
+                    <div class="title" @click="goShop">
                         <img width="15%" height="100%" :src="item.img" alt="shop">
                         <div>
                             <p>
@@ -49,6 +49,7 @@ export default {
     },
     data(){
         return{
+            wholeRight: 0,
             storage: [],
             list: [
                 {
@@ -139,6 +140,18 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        goShop(){
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/shop'});
+            }, 200);
+        },
         praiseColor(index){
             return this.list[index].ispraise ? '#FF6600' : '#999';
         },
@@ -205,6 +218,7 @@ export default {
         display: grid;
         grid-template: 9fr 1fr / 1fr;
         background: #F0F0F0;
+        position: relative;
         .footer{
             ul{
                 li:nth-child(2){

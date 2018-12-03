@@ -1,5 +1,5 @@
 <template>
-    <div class="shop-whole">
+    <div class="shop-whole" :style="{right:wholeRight+'%'}">
         <header>
             <div class="header-box">
                 <i class="iconfont icon-fanhui1" @click="goBack"></i>
@@ -35,6 +35,7 @@ export default {
     name: 'Shop',
     data(){
         return{
+            wholeRight: 0,
             shop: {
                 name: '小米品牌',
                 img: 'static/shop/shop1.jpg',
@@ -83,14 +84,32 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back();
+            }, 200);
         },
         goHome(){
             this.$router.push({path: '/home'});
         },
         goGoods(){
-            this.$router.push({path: '/goods'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/goods'});
+            }, 200);
         }
     }
 }
@@ -100,12 +119,13 @@ export default {
     .shop-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 20%;
             background: url(/static/shop/header.jpg);
             .header-box{
                 height: 100%;
-                background: rgba(192,192,192,0.3);
+                background: rgba(192,192,192,0.2);
                 display: flex;
                 justify-content: space-between;
                 padding: 10px;

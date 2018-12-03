@@ -1,5 +1,5 @@
 <template>
-    <div class="home-whole" id="homeWhole">
+    <div class="home-whole" id="homeWhole" :style="{right:wholeRight+'%'}">
         <div class="home-content">
             <div class="search">
                 <div class="search-content">
@@ -118,7 +118,7 @@ export default {
     },
     data(){
         return{
-            // goodsNavStyle: ['color:red'],
+            wholeRight: 0,
             goodsNavIf: [true],
             storageWhole: [],
             storageHot: [],
@@ -401,8 +401,17 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
         goGoods(){
-            this.$router.push({path:'/goods'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path:'/goods'}); 
+            }, 200);
         },
         hotClick(item){
             this.$router.push({path:'/searchresult', query: {type: 'whole',goods: item}});
@@ -459,6 +468,7 @@ export default {
         background: #F0F0F0;
         display: grid;
         grid-template: 9fr 1fr / 1fr;
+        position: relative;
         .footer{
             ul{
                 li:nth-child(1){

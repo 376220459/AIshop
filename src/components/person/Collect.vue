@@ -1,5 +1,5 @@
 <template>
-    <div class="collect-whole">
+    <div class="collect-whole" :style="{right:wholeRight+'%'}">
         <header>
             <i class="iconfont icon-fanhui1" @click="goBack"></i>
             <p>我的收藏({{ allCollectCount }})</p>
@@ -24,6 +24,7 @@ export default {
     name: 'Collect',
     data(){
         return{
+            wholeRight: 0,
             collect: [
                 {
                     introduce: '华为 P20徕卡双镜头,AI智慧全面屏 ,杜比全景声',
@@ -70,11 +71,29 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back();
+            }, 200);
         },
         goGoods(){
-            this.$router.push({path: '/goods'})
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/goods'})
+            }, 200);
         }
     }
 }
@@ -84,6 +103,7 @@ export default {
     .collect-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 10%;
             background: #FF9966;

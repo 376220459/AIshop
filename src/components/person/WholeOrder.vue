@@ -1,5 +1,5 @@
 <template>
-    <div class="whole-order-whole">
+    <div class="whole-order-whole" :style="{right:wholeRight+'%'}">
         <header>
             <i class="iconfont icon-fanhui1" @click="goBack"></i>
             <p>我的订单</p>
@@ -54,6 +54,7 @@ export default {
     name: 'WholeOrder',
     data(){
         return{
+            wholeRight: 0,
             whole: [
                 {
                     shop: '唐狮官方旗舰店',
@@ -103,14 +104,32 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            this.$router.push({path: '/person'});
+            this.rightMove();
+            setTimeout(() => {
+                this.$router.push({path: '/person'});
+            }, 200);
         },
         goOrder(pathName){
             this.$router.push({path: '/' + pathName});
         },
         goGoods(){
-            this.$router.push({path: '/goods'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/goods'});
+            }, 200);
         },
         allPrice(index){
             return this.whole[index].price*this.whole[index].count;
@@ -144,6 +163,7 @@ export default {
     .whole-order-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 10%;
             background: #FF9966;
@@ -279,4 +299,3 @@ export default {
         }
     }
 </style>
-

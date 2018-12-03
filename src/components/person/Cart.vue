@@ -1,5 +1,5 @@
 <template>
-    <div class="cart-whole">
+    <div class="cart-whole" :style="{right:wholeRight+'%'}">
         <div class="cart-content">
             <div class="content">
                 <div class="title">
@@ -68,6 +68,7 @@ export default {
     },
     data(){
         return{
+            wholeRight: 0,
             btnName: '管理',
             shop: [],
             shopList: [],
@@ -160,8 +161,17 @@ export default {
         
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
         goGoods(){
-            this.$router.push({path: '/goods'});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path: '/goods'});
+            }, 200);
         },
         allgoodsCount(){
             let count = 0;
@@ -372,6 +382,7 @@ export default {
         background: #F0F0F0;
         display: grid;
         grid-template: 9fr 1fr / 1fr;
+        position: relative;
         .footer{
             ul{
                 li:nth-child(3){

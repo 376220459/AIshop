@@ -1,5 +1,5 @@
 <template>
-    <div class="search-whole">
+    <div class="search-whole" :style="{right:wholeRight+'%'}">
         <div class="search">
             <i class="iconfont icon-fanhui" @click="goBack"></i>
             <input autofocus id="inp" type="text" placeholder="输入要搜索的宝贝或店铺" v-model="searchContent">
@@ -31,6 +31,7 @@ export default {
     name: 'Search',
     data(){
         return{
+            wholeRight: 0,
             nav: 'whole',
             history: ['拖鞋棉冬室内男 男士 包跟 冬季','秋裤','毛衣','羽绒服','IphoneX','小米MIX3','牛仔裤','蛋糕'],
             searchContent: ''
@@ -46,12 +47,26 @@ export default {
         }
     },
     methods: {
+        leftMove(){
+            this.wholeRight += 10;
+            setTimeout(() => {
+                this.leftMove();
+            },10);
+        },
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         changeNav(nav){
             this.nav = nav;
         },
         goBack(){
-            // history.go(-1)
-            this.$router.push({path:'/home'});
+            this.rightMove();
+            setTimeout(() => {
+                this.$router.push({path:'/home'}); 
+            }, 200);
         },
         search(){
             if(this.searchContent.trim() == ''){
@@ -61,7 +76,11 @@ export default {
                     duration: 1000
                 })
             }else{
-                this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
+                this.leftMove();
+                setTimeout(() => {
+                    this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
+                }, 200);
+                
             }
         },
         deleteAll(){
@@ -73,7 +92,10 @@ export default {
         },
         historyClick(item){
             this.searchContent = item;
-            this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
+            this.leftMove();
+            setTimeout(() => {
+                this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
+            }, 200); 
         }
     },
     mounted() {
@@ -86,6 +108,8 @@ export default {
 
 <style lang="scss" scoped>
     .search-whole{
+        position: relative;
+        // left: 10%;
         height: 100%;
         display: grid;
         grid-template: 1fr 1fr 10fr / 1fr;

@@ -1,5 +1,5 @@
 <template>
-    <div class="address-whole">
+    <div class="address-whole" :style="{right:wholeRight+'%'}">
         <header>
             <i class="iconfont icon-fanhui1" @click="goBack"></i>
             <p>我的地址({{ allAddressCount }})</p>
@@ -28,6 +28,7 @@ export default {
     name: 'Address',
     data(){
         return{
+            wholeRight: 0,
             address: [
                 {
                     label: '学校',
@@ -56,8 +57,17 @@ export default {
         }
     },
     methods: {
+        rightMove(){
+            this.wholeRight -= 10;
+            setTimeout(() => {
+                this.rightMove();
+            },10);
+        },
         goBack(){
-            history.back();
+            this.rightMove();
+            setTimeout(() => {
+                history.back();
+            }, 200);
         },
         goAddAddress(){
             this.$router.push({path: '/add-address'})
@@ -84,6 +94,7 @@ export default {
     .address-whole{
         height: 100%;
         background: #F0F0F0;
+        position: relative;
         header{
             height: 10%;
             background: #FF9966;
