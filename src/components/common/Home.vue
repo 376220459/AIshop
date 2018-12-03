@@ -18,7 +18,7 @@
 
                 <div class="hot-wipe">
                     <mt-swipe :auto="3000">
-                        <mt-swipe-item v-for="(item, index) in hotImgs" :key="index" @click.native="click">
+                        <mt-swipe-item v-for="(item, index) in hotImgs" :key="index" @click.native="goGoods">
                             <img :src="item" alt="hot" width="100%" height="100%">
                         </mt-swipe-item>
                     </mt-swipe>
@@ -27,7 +27,7 @@
                 <div class="recommend">
                     <span>每日推荐</span>
                     <ul>
-                        <li v-for="(item, index) in recommendImgs" :key="index" @click="click">
+                        <li v-for="(item, index) in recommendImgs" :key="index" @click="goGoods">
                             <img :src="item" alt="recommend" width="100%" style="border-radius:10px">
                         </li>
                     </ul>
@@ -36,7 +36,7 @@
                 <div class="favourite">
                     <span>猜你喜欢</span>
                     <ul>
-                        <li v-for="(item, index) in favouriteGoods" :key="index" @click="click">
+                        <li v-for="(item, index) in favouriteGoods" :key="index" @click="goGoods">
                             <div class="details">
                                 <p><strong>{{ item.name }}</strong></p>
                                 <img :src="item.sImg" alt="小图" width="100%">
@@ -59,7 +59,7 @@
                     </div>
 
                     <ul v-if="goodsNavIf[0]" class="goods-whole">
-                        <li v-for="(item, index) in storageWhole" :key="index">
+                        <li v-for="(item, index) in storageWhole" :key="index" @click="goGoods">
                             <div><img :src="item.img" alt="goods" width="100%"></div>
                             <div style="width:90%;"><p>{{ item.introduce }}</p></div>
                             <div><strong>￥{{ item.price }}</strong><span>{{ item.payCount }}人付款</span></div>
@@ -68,7 +68,7 @@
                     </ul>
 
                     <ul v-if="goodsNavIf[1]" class="goods-whole">
-                        <li v-for="(item, index) in storageHot" :key="index">
+                        <li v-for="(item, index) in storageHot" :key="index" @click="goGoods">
                             <div><img :src="item.img" alt="goods" width="100%"></div>
                             <div style="width:90%;"><p>{{ item.introduce }}</p></div>
                             <div><strong>￥{{ item.price }}</strong><span>{{ item.payCount }}人付款</span></div>
@@ -77,7 +77,7 @@
                     </ul>
                     
                     <ul v-if="goodsNavIf[2]" class="goods-whole">
-                        <li v-for="(item, index) in storageClothes" :key="index">
+                        <li v-for="(item, index) in storageClothes" :key="index" @click="goGoods">
                             <div><img :src="item.img" alt="goods" width="100%"></div>
                             <div style="width:90%;"><p>{{ item.introduce }}</p></div>
                             <div><strong>￥{{ item.price }}</strong><span>{{ item.payCount }}人付款</span></div>
@@ -85,7 +85,7 @@
                         <div @click="loadMore(storageClothes,goodsClothes)" class="goods-loading">点击加载更多...</div>
                     </ul>
                     <ul v-if="goodsNavIf[3]" class="goods-whole">
-                        <li v-for="(item, index) in storageElectrical" :key="index">
+                        <li v-for="(item, index) in storageElectrical" :key="index" @click="goGoods">
                             <div><img :src="item.img" alt="goods" width="100%"></div>
                             <div style="width:90%;"><p>{{ item.introduce }}</p></div>
                             <div><strong>￥{{ item.price }}</strong><span>{{ item.payCount }}人付款</span></div>
@@ -93,7 +93,7 @@
                         <div @click="loadMore(storageElectrical,goodsElectrical)" class="goods-loading">点击加载更多...</div>
                     </ul>
                     <ul v-if="goodsNavIf[4]" class="goods-whole">
-                        <li v-for="(item, index) in storageOthers" :key="index">
+                        <li v-for="(item, index) in storageOthers" :key="index" @click="goGoods">
                             <div><img :src="item.img" alt="goods" width="100%"></div>
                             <div style="width:90%;"><p>{{ item.introduce }}</p></div>
                             <div><strong>￥{{ item.price }}</strong><span>{{ item.payCount }}人付款</span></div>
@@ -401,12 +401,8 @@ export default {
         }
     },
     methods: {
-        click(){
-            this.$toast({
-                message: '该商品已下架',
-                iconClass: 'iconfont icon-jinggao1',
-                duration: 500
-            })
+        goGoods(){
+            this.$router.push({path:'/goods'});
         },
         hotClick(item){
             this.$router.push({path:'/searchresult', query: {type: 'whole',goods: item}});
@@ -460,9 +456,6 @@ export default {
 <style lang="scss">
     .home-whole{
         height: 100%;
-        // background: url(/static/back/home.png);
-        // background-size: cover;
-        // background: #f1a775;
         background: #F0F0F0;
         display: grid;
         grid-template: 9fr 1fr / 1fr;
@@ -539,14 +532,14 @@ export default {
                     }
                 }
                 .hot-wipe{
-                    height: 222px;
+                    height: 200px;
                     width: 100%;
                     margin-bottom: 5px;
                     display: flex;
                     align-items: center;
                     background: #FF9966;
                     .mint-swipe{
-                        height: 95%;
+                        // height: 95%;
                         width: 100%;
                     }
                 }
@@ -601,10 +594,9 @@ export default {
                         ul{
                             display: flex;
                             justify-content: space-around;
-                            // background: #F0F0F0;
                             background: #FFFFFF;
-                            // border-bottom: 1px solid #FF6600;
                             border-radius: 5px;
+                            margin-top: 10px;
                             li{
                                 display: flex;
                                 align-items: center;
@@ -624,7 +616,7 @@ export default {
                         li{
                             background: white;
                             box-sizing: border-box;
-                            width: 50%;
+                            width: 48%;
                             border: 1px solid #F0F0F0;
                             border-radius: 5px;
                             border-top: 0;
@@ -632,6 +624,10 @@ export default {
                             flex-direction: column;
                             align-items: center;
                             justify-content: space-between;
+                            margin-top: 10px;
+                            img{
+                                border-radius: 5px;
+                            }
                             div{
                                 margin-bottom: 5px;
                             }

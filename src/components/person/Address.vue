@@ -68,6 +68,10 @@ export default {
         deleteAddress(index){
             this.$message.confirm('确认删除此地址？').then(action=>{
                 this.address.splice(index,1);
+                this.$toast({
+                    message: '删除成功',
+                    duration: 1000
+                });
             },reject=>{
                 console.log('取消删除操作');
             })
@@ -99,7 +103,7 @@ export default {
                 right: 5px;
                 font-size: 15px;
                 font-weight: bold;
-                color: gray;
+                color: #FF4500;
             }
         }
         .address-content{
@@ -121,7 +125,7 @@ export default {
                         justify-content: center;
                         align-items: center;
                         border-radius: 50%;
-                        background: #B0B0B0;
+                        background: #FF6600;
                         color: white;
                     }
                     .inf{
@@ -151,10 +155,9 @@ export default {
                     }
                     .delete{
                         font-size: 15px;
-                        background: #FF6600;
                         border-radius: 10px;
-                        padding: 2px 5px;
-                        color: white;
+                        color: #FF6600;
+                        margin-right: 10px;
                     }
                 }
             }

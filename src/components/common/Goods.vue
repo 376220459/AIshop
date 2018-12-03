@@ -116,7 +116,7 @@
 
                 <div class="introduce">
                     <p><span>{{ goods.shop.brand }}</span>{{ goods.introduce }}</p>
-                    <span class="share"><i class="iconfont icon-share"></i>分享</span>
+                    <span class="share" @click="tip"><i class="iconfont icon-share"></i>分享</span>
                 </div>
 
                 <div class="sale">
@@ -164,7 +164,7 @@
                 <span class="font">------------------------宝贝评价------------------------</span>
                 <div class="title">
                     <span>宝贝评价({{ goods.evaluate.allCount }})</span>
-                    <span>查看全部＞</span>
+                    <span @click="tip">查看全部＞</span>
                 </div>
                 <div class="label">
                     <p v-for="(item, index) in goods.evaluate.label" :key="index">{{ item.name }}<span>({{ item.count }})</span></p>
@@ -175,7 +175,7 @@
                 </div>
             </div>
 
-            <div class="goods-shop">
+            <div class="goods-shop" @click="goShop">
                 <div class="inf">
                     <img height="70rem" :src="goods.shop.img" alt="shop">
                     <div>
@@ -199,10 +199,10 @@
             <div class="goods-recommend">
                 <div>
                     <span>店铺推荐</span>
-                    <span style="color:#FF6600">查看全部＞</span>
+                    <span style="color:#FF6600" @click="goShop">查看全部＞</span>
                 </div>
                 <ul>
-                    <li v-for="(item, index) in goods.shop.recommend" :key="index">
+                    <li v-for="(item, index) in goods.shop.recommend" :key="index" @click="goGoods">
                         <img width="100%" :src="item.img" alt="goods">
                         <p class="p1">{{ item.introduce }}</p>
                         <p class="p2">￥{{ item.price }}</p>
@@ -221,7 +221,7 @@
         </div>
 
         <div class="footer">
-            <span>
+            <span @click="goShop">
                 <i class="iconfont icon-dianpu" style="color:#FF6347"></i>    
                 <p>店铺</p>
             </span>    
@@ -463,14 +463,26 @@ export default {
         }
     },
     methods: {
+        tip(){
+            this.$toast({
+                message: '此功能未开放',
+                duration: 1000
+            });
+        },
         goBack(){
             history.back();
         },
         goCart(){
-            this.$router.push({path:'cart'});
+            this.$router.push({path:'/cart'});
         },
         goHome(){
             this.$router.push({path:'/'});
+        },
+        goGoods(){
+            this.$router.push({path:'/goods'});
+        },
+        goShop(){
+            this.$router.push({path:'/shop'});
         },
         changeCollect(){
             if(this.goods.isCollect == true){

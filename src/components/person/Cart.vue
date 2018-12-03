@@ -19,9 +19,9 @@
                         <div class="goods" v-for="(item2, index2) in item.goods" :key="index2">
                             <input type="checkbox" :name="item.id" :value="index2" v-model="shopList[index]">
                             <div class="goods-content">
-                                <img :src="item2.img" alt="goods" width="30%;">
+                                <img :src="item2.img" alt="goods" width="30%;" @click="goGoods">
                                 <div>
-                                    <p class="introduce">{{ item2.introduce }}</p>
+                                    <p class="introduce" @click="goGoods">{{ item2.introduce }}</p>
                                     <p class="spec">{{ item2.spec }}</p>
                                     <p class="buy">
                                         <span class="price">￥{{ computePrice(item2.price,item2.count) }}</span>
@@ -160,6 +160,9 @@ export default {
         
     },
     methods: {
+        goGoods(){
+            this.$router.push({path: '/goods'});
+        },
         allgoodsCount(){
             let count = 0;
             this.list.forEach(e=>{
@@ -427,6 +430,11 @@ export default {
                             display: flex;
                             align-items: center;
                             margin-top: 10px;
+                            input[type='checkbox']{
+                                // font-size: 15px;
+                                width: 0.8rem;
+                                height: 0.8rem;
+                            }
                             .goods-content{
                                 margin-left: 10px;
                                 display: flex;

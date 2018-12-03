@@ -8,12 +8,18 @@ import Collect from '@/components/person/Collect'
 import ShopFollow from '@/components/person/ShopFollow'
 import Address from '@/components/person/Address'
 import AddAddress from '@/components/person/AddAddress'
+import WholeOrder from '@/components/person/WholeOrder'
+import PayOrder from '@/components/person/PayOrder'
+import ReceiveOrder from '@/components/person/ReceiveOrder'
+import FinishOrder from '@/components/person/FinishOrder'
+import Inf from '@/components/person/Inf'
 import Home from '@/components/common/Home'
 import Login from '@/components/common/Login'
 import Register from '@/components/common/Register'
 import Search from '@/components/common/Search'
 import SearchResult from '@/components/common/SearchResult'
 import Goods from '@/components/common/Goods'
+import Shop from '@/components/common/Shop'
 
 Vue.use(Router)
 
@@ -71,6 +77,11 @@ export default new Router({
       component: Goods
     },
     {
+      path: '/shop',
+      name: 'Shop',
+      component: Shop
+    },
+    {
       path: '/collect',
       name: 'Collect',
       component: Collect
@@ -89,6 +100,31 @@ export default new Router({
       path: '/add-address',
       name: 'AddAddress',
       component: AddAddress
+    },
+    {
+      path: '/whole-order',
+      name: 'WholeOrder',
+      component: WholeOrder
+    },
+    {
+      path: '/pay-order',
+      name: 'PayOrder',
+      component: PayOrder
+    },
+    {
+      path: '/receive-order',
+      name: 'ReceiveOrder',
+      component: ReceiveOrder
+    },
+    {
+      path: '/finish-order',
+      name: 'FinishOrder',
+      component: FinishOrder
+    },
+    {
+      path: '/inf',
+      name: 'Inf',
+      component: Inf
     }
   ]
 })

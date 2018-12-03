@@ -92,7 +92,7 @@
                             <img height="80%" :src="item.logo" alt="logo">
                             <span>{{ item.name }}</span>
                         </div>
-                        <button>进店</button>
+                        <button @click="goShop">进店</button>
                     </div>
                     <div>
                         <img height="75%" :src="item.goods1" alt="goods1">
@@ -254,6 +254,9 @@ export default {
         }
     },
     methods: {
+        goShop(){
+            this.$router.push({path: '/shop'});
+        },
         changeGoodsType(item,index){
             this.goodsTypeStyle = [];
             this.goodsTypeStyle[index] = 'color:#FF6600';

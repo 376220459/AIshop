@@ -3,7 +3,9 @@
         <mt-actionsheet :actions="labels" v-model="sheetVisible" cancelText=""></mt-actionsheet>
 
         <mt-popup v-model="popupVisible" position="bottom" style="width:100%">
-            <mt-picker :slots="myAddressSlots" @change="onMyAddressChange"></mt-picker>
+            <mt-picker ref="picker" :slots="myAddressSlots" @change="onMyAddressChange" :visible-item-count="7" :show-toolbar="true">
+                <button class="picker-button" @click="confirmAddress">确定</button>
+            </mt-picker>
         </mt-popup>
 
         <header>
@@ -49,7 +51,7 @@
 </template>
 
 <script>
-import myaddress from './myaddress.json'
+import myaddress from '@/../static/myaddress.json'
 export default {
     name: 'AddAddress',
     data(){
@@ -149,11 +151,14 @@ export default {
 　　　　　　if(myaddress[values[0]]){ //这个判断类似于v-if的效果（可以不加，但是vue会报错，很不爽）
 　　　　　　　　picker.setSlotValues(1,Object.keys(myaddress[values[0]])); // Object.keys()会返回一个数组，当前省的数组
 　　　　　　　　picker.setSlotValues(2,myaddress[values[0]][values[1]]); // 区/县数据就是一个数组
-　　　　　　　　this.myAddressProvince = values[0];
-　　　　　　　　this.myAddressCity = values[1];
-　　　　　　　　this.myAddresscounty = values[2];
 　　　　　　}
-　　　　 }
+　　　　 },
+        confirmAddress(){
+            this.myAddressProvince = this.$refs.picker.getValues()[0];
+            this.myAddressCity = this.$refs.picker.getValues()[1];
+            this.myAddresscounty = this.$refs.picker.getValues()[2];
+            this.popupVisible = false;
+        }
     },
     mounted(){
         this.$nextTick(() => {
@@ -167,6 +172,14 @@ export default {
     .add-address-whole{
         height: 100%;
         background: #F0F0F0;
+        .picker-button{
+            font-size: 20px;
+            color: #FF6600;
+            border-radius: 15px;
+            margin-top: 5px;
+            background: #FFCCCC;
+            padding: 2px 5px;
+        }
         header{
             height: 10%;
             background: #FF9966;
@@ -186,7 +199,7 @@ export default {
                 right: 15px;
                 font-size: 15px;
                 font-weight: bold;
-                color: #FF6600;
+                color: #FF4500;
             }
         }
         .add-address-content{

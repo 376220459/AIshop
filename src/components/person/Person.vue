@@ -2,8 +2,8 @@
     <div class="person-whole">
         <div class="person-content">
             <div class="base-inf">
-                <img :src="person.img" alt="person" width="33%" height="100%">
-                <p class="name"><i :class="sexClass"></i> {{ person.name }}</p>
+                <div class="img"><img @click="goInf" :src="person.img" alt="person" width="120px"></div>
+                <p @click="goInf" class="name"><i :class="sexClass"></i> {{ person.name }}</p>
                 <div class="count">
                     <p @click="goCollect">
                         <span>{{ person.collectCount }}</span>
@@ -23,19 +23,19 @@
             <div class="order-inf">
                 <p class="order-title">我的订单</p>
                 <div class="order">
-                    <p>
+                    <p @click="goOrder('whole-order')">
                         <i class="iconfont icon-dingdan"></i>
                         <strong>全部</strong>
                     </p>
-                    <p>
+                    <p @click="goOrder('pay-order')">
                         <i class="iconfont icon-daifukuan"></i>
                         <strong>待付款</strong>
                     </p>
-                    <p>
+                    <p @click="goOrder('receive-order')">
                         <i class="iconfont icon-daishouhuo"></i>
                         <strong>待收货</strong>
                     </p>
-                    <p>
+                    <p @click="goOrder('finish-order')">
                         <i class="iconfont icon-yiwancheng"></i>
                         <strong>已完成</strong>
                     </p>
@@ -117,6 +117,9 @@ export default {
         }
     }, 
     methods:{
+        goInf(){
+            this.$router.push({path:'/inf'});
+        },
         goCollect(){
             this.$router.push({path:'/collect'});
         },
@@ -128,6 +131,9 @@ export default {
         },
         goGoods(){
             this.$router.push({path:'/goods'});
+        },
+        goOrder(pathName){
+            this.$router.push({path: '/' + pathName});
         },
         loadMore(){
             this.$loading.open({
@@ -155,7 +161,7 @@ export default {
         },
     },
     created(){
-        for (let i = 0;i < 2;i++){
+        for (let i = 0;i < 4;i++){
             this.storage.push(this.person.history[i]);
         }
     }
@@ -185,9 +191,12 @@ export default {
                 width: 100%;
                 background: #FF9966;
                 padding-bottom: 5px;
-                img{
+                .img{
+                    width: 120px;
+                    height: 120px;
+                    overflow: hidden;
                     border-radius: 50%;
-                    margin: 10px 0 5px 0;
+                    margin: 10px auto 5px auto;
                 }
                 .name{
                     font-size: 25px;
@@ -214,7 +223,7 @@ export default {
                 background: white;
                 margin: 10px 0;
                 border-radius: 10px;
-                padding: 5px 0;
+                padding: 5px 0 10px 0;
                 .order-title{
                     color: #999;
                     font-size: 15px;
