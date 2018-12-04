@@ -5,7 +5,7 @@
                 <h2>店铺动态</h2>
             </header>
 
-            <div class="content">
+            <div class="content" id="content">
                 <div class="dynamic" v-for="(item, index) in storage" :key="index">
                     <div class="title" @click="goShop">
                         <img width="15%" height="100%" :src="item.img" alt="shop">
@@ -49,6 +49,7 @@ export default {
     },
     data(){
         return{
+            contentHeight: 0,
             wholeRight: 0,
             storage: [],
             list: [
@@ -208,6 +209,15 @@ export default {
         for (let i = 0;i < 3;i++){
             this.storage.push(this.list[i]);
         }
+    },
+    activated(){
+        let content = document.getElementById('content');
+        content.scrollTop = this.contentHeight;
+    },
+    beforeRouteLeave(to, from, next) {
+        let content = document.getElementById('content');
+        this.contentHeight = content.scrollTop;
+        next();
     }
 }
 </script>

@@ -1,40 +1,52 @@
 <template>
-    <div class="login-whole" id="whole">
+    <div class="login-whole" id="whole" :style="{height: appHeight+'px'}">
+        <button class="back" @click="goHome">返回首页</button>
         <div class="top">
-            <div class="line" style="border-color:#00FA9A;"></div>
-            <div class="btn" @click="login" style="border-color:#00FA9A;"><span>登陆</span></div>
+            <div class="line" style="border-color:gray;"></div>
+            <div class="btn" @click="register" style="border-color:gray;"><span>注册</span></div>
         </div>
         <div class="loginForm">
             <form action="" style="text-align:left">
-                <div><span>账号：</span><input autofocus="autofocus" v-model="username" type="text" placeholder="手机号 / 邮箱 / 昵称"></div>
-                <div><span>密码：</span><input v-model="password" type="password"></div>
+                <div><span>账号：</span><input v-model="username" type="text" placeholder="手机号 / 邮箱 / 昵称"></div>
+                <div><span>密码：</span><input v-model="password" type="password" @keyup.enter="login"></div>
                 <!-- <div style="display:flex;align-items:center;"><span>验证码：</span><input type="password" style="width:5em"><div style="width:1.5em;height:0.4em;border:1px solid black;display:flex">xyzj</div></div> -->
             </form>
         </div>
         <div class="bottom">
-            <div class="btn" @click="register" style="border-color:gray;"><span>注册</span></div>
-            <div class="line" style="border-color:gray;"></div>
+            <div class="btn" @click="login" style="border-color:#00FA9A;"><span>登陆</span></div>
+            <div class="line" style="border-color:#00FA9A;"></div>
         </div>
     </div>    
 </template>
 
 <script>
-import store from '@/vuex/store'
 export default {
-    store,
     name: 'Login',
     data(){
         return{
+            appHeight: document.body.clientHeight,
             username: '',
             password: ''
         }
     },
     methods: {
+        goHome(){
+            this.$loading.open({
+                text: '正在跳转...',
+                spinnerType: 'fading-circle'
+            });
+            setTimeout(() => {
+                this.$loading.close();
+                this.$router.push({path:'/home'})
+            }, 500);
+        },
         login(){
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
             let whole = document.getElementById('whole');
-            // if(this.username == 'admin' && this.password == 'admin'){
-            if(this.username == ''){
-                this.$store.state.id = 1;
+            if(this.username == 'admin' && this.password == 'admin'){
+                storage.setItem('id','AI001');
                 whole.style.animationPlayState = 'running';
                 this.$loading.open({
                     text: '登陆成功，正在跳转...',
@@ -55,17 +67,20 @@ export default {
                     duration: 1000
                 });
             }
-            // this.$router.push({path:'/'})
         },
         register(){
-            this.$router.push({path:'/register'})
+            this.$loading.open({
+                text: '正在跳转...',
+                spinnerType: 'fading-circle'
+            });
+            setTimeout(() => {
+                this.$loading.close();
+                this.$router.push({path:'/register'})
+            }, 500);
             // this.$toast({
             //     message: '当前服务器忙...',
             //     duration: 1000
             // });
-        },
-        running(){
-            
         }
     }
 }
@@ -73,8 +88,7 @@ export default {
 
 <style lang="scss" scoped>
     .login-whole{
-        height: 100%;
-        // height: 100vh;
+        // height: 100%;
         display: grid;
         grid-template: 1fr 1fr 1fr / 1fr;
         background: url(../../../static/back/login-back.jpeg);
@@ -90,9 +104,16 @@ export default {
             // 50% {transform: rotateZ(90*5deg)}
             // 100% {transform: rotateZ(360*3deg) scale(0.1); opacity: 0}
         }
+        .back{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 15px;
+            color: gray;
+        }
         .line{
             height: 50%;
-            width: 1px;
+            width: 2px;
             border-left: 1px solid black;
         }
         .btn{
@@ -132,8 +153,6 @@ export default {
                 font-size: 2em;
                 input{
                     height: 1.5em;
-                    // outline: none;
-                    // background: transparent;
                     font-size: 0.8em;
                     border: 1px solid black;
                     border-radius: 16px;

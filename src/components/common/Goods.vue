@@ -697,9 +697,15 @@ export default {
             this.get.push('立即领取');
         });
     },
+    // beforeRouteLeave(to, from, next) {
+    //     if(to.path === '/searchresult'){
+    //         to.meta.keepAlive = true;
+    //     }
+    //     next();
+    // },
     destroyed(){
         window.removeEventListener('scroll', this.onScroll,true);//卸载页面滚动事件
-    },
+    }
 }
 </script>
 

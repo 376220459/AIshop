@@ -408,18 +408,54 @@ export default {
             },10);
         },
         goGoods(){
-            this.leftMove();
-            setTimeout(() => {
-                this.$router.push({path:'/goods'}); 
-            }, 200);
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
+            if(!storage.id){
+                this.$toast({
+                    message: '您好像还没有登陆哦~',
+                    duration: 2000
+                });
+                this.$router.push({path:'/login'});
+            }else{
+                this.leftMove();
+                setTimeout(() => {
+                    this.$router.push({path:'/goods'}); 
+                }, 200);
+            }
         },
         hotClick(item){
-            this.$router.push({path:'/searchresult', query: {type: 'whole',goods: item}});
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
+            if(!storage.id){
+                this.$toast({
+                    message: '您好像还没有登陆哦~',
+                    duration: 2000
+                });
+                this.$router.push({path:'/login'});
+            }else{
+                this.leftMove();
+                setTimeout(() => {
+                    this.$router.push({path:'/searchresult', query: {type: 'whole',goods: item}});
+                }, 200);
+            }
         },
         toSearch(){
-            let homeWhole = document.getElementById('homeWhole');
-            homeWhole.style.display = 'none';
-            this.$router.push({path: '/search'});
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
+            if(!storage.id){
+                this.$toast({
+                    message: '您好像还没有登陆哦~',
+                    duration: 2000
+                });
+                this.$router.push({path:'/login'});
+            }else{
+                let homeWhole = document.getElementById('homeWhole');
+                homeWhole.style.display = 'none';
+                this.$router.push({path: '/search'});
+            }
         },
         goodsNavIfChange(index){
             this.goodsNavIf = [];

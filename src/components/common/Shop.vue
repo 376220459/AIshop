@@ -121,7 +121,7 @@ export default {
         background: #F0F0F0;
         position: relative;
         header{
-            height: 20%;
+            height: 25%;
             background: url(/static/shop/header.jpg);
             .header-box{
                 height: 100%;
@@ -146,7 +146,7 @@ export default {
             } 
         }
         .shop-content{
-            height: 80%;
+            height: 75%;
             overflow: auto;
             .mint-swipe{
                 height: 400px;

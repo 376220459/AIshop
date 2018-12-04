@@ -1,8 +1,8 @@
 <template>
-    <div class="search-whole" :style="{right:wholeRight+'%'}">
+    <div class="search-whole" :style="{right:wholeRight+'%',height: appHeight+'px'}">
         <div class="search">
             <i class="iconfont icon-fanhui" @click="goBack"></i>
-            <input autofocus id="inp" type="text" placeholder="输入要搜索的宝贝或店铺" v-model="searchContent">
+            <input autofocus="autofocus" id="inp" type="text" placeholder="输入要搜索的宝贝或店铺" v-model="searchContent">
             <button @click="search">搜索</button>
         </div>
 
@@ -20,7 +20,7 @@
                 <i class="iconfont icon-remove-1-copy" @click="deleteAll"></i>
             </div>
             <ul>
-                <li v-for="(item, index) in history" :key="index" @click="historyClick(item)">{{ item }}</li>
+                <li v-for="(item, index) in history" :key="index" @touchstart="touchstart(index)" @touchmove="touchmove" @touchend="touchend(item)">{{ item }}</li>
             </ul>
         </div>
     </div>
@@ -31,6 +31,8 @@ export default {
     name: 'Search',
     data(){
         return{
+            timeOutEvent: 0,
+            appHeight: document.body.clientHeight,
             wholeRight: 0,
             nav: 'whole',
             history: ['拖鞋棉冬室内男 男士 包跟 冬季','秋裤','毛衣','羽绒服','IphoneX','小米MIX3','牛仔裤','蛋糕'],
@@ -47,6 +49,31 @@ export default {
         }
     },
     methods: {
+        touchstart(index){
+            this.timeOutEvent = setTimeout(() => {
+                this.longPress(index);
+            }, 500);
+            return false;
+        },
+        touchend(item){
+            clearTimeout(this.timeOutEvent);
+            if(this.timeOutEvent != 0){
+                this.historyClick(item);
+            }
+            return false;
+        },
+        touchmove(){
+            clearTimeout(this.timeOutEvent);
+            this.timeOutEvent = 0;
+        },
+        longPress(index){
+            this.timeOutEvent = 0;
+            this.$message.confirm('您将删除此条记录？').then(action=>{
+                this.history.splice(index,1);
+            },reject=>{
+                console.log('取消删除操作');
+            })
+        },
         leftMove(){
             this.wholeRight += 10;
             setTimeout(() => {
@@ -69,7 +96,7 @@ export default {
             }, 200);
         },
         search(){
-            if(this.searchContent.trim() == ''){
+            if(!this.searchContent || this.searchContent.trim() == ''){
                 this.$toast({
                     message: '空空如也',
                     iconClass: 'iconfont icon-jinggao1',
@@ -78,13 +105,13 @@ export default {
             }else{
                 this.leftMove();
                 setTimeout(() => {
-                    this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
+                    this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent.trim()}});
                 }, 200);
                 
             }
         },
         deleteAll(){
-            this.$message.confirm('删除全部历史记录？').then(action=>{
+            this.$message.confirm('您将删除全部历史记录？').then(action=>{
                 this.history = [];
             },reject=>{
                 console.log('取消删除操作');
@@ -102,15 +129,20 @@ export default {
         console.log(inp);
         inp.autofocus = 'autofocus';
         this.searchContent = this.$route.query.goods;
-    }
+    },
+    // beforeRouteLeave(to, from, next) {
+    //     if(to.path === '/searchresult'){
+    //         to.meta.keepAlive = false;
+    //     }
+    //     next();
+    // }
 }
 </script>
 
 <style lang="scss" scoped>
     .search-whole{
         position: relative;
-        // left: 10%;
-        height: 100%;
+        // height: 100%;
         display: grid;
         grid-template: 1fr 1fr 10fr / 1fr;
         background: #F0F0F0;

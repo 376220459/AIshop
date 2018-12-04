@@ -1,5 +1,5 @@
 <template>
-    <div class="register-whole">
+    <div class="register-whole" :style="{height: appHeight+'px'}">
         <form action="">
             <h2 style="text-align:left;margin: 5px 0 10px 5px">请填写注册信息（*必填）:</h2>
             <mt-field disableClear @blur.native.capture="nameTest" :state="nameState" label="*昵称：" placeholder="请输入昵称" v-model="username"></mt-field>
@@ -19,12 +19,11 @@
 </template>
 
 <script>
-import store from '@/vuex/store'
 export default {
-    store,
     name: 'Register',
     data(){
         return{
+            appHeight: document.body.clientHeight,
             username: '',
             email: '',
             password: '',
@@ -42,8 +41,11 @@ export default {
     },
     methods: {
         register(){
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
             if(this.nameState == 'success' && this.emailState == 'success' && this.pswState == 'success' &&this.repswState == 'success' && this.phoneState == 'success'){
-                this.$store.state.id = 1;
+                storage.setItem('id','AI001');
                 this.$loading.open({
                     text: '注册成功，正在登陆...',
                     spinnerType: 'fading-circle'
@@ -68,7 +70,7 @@ export default {
             setTimeout(() => {
                 this.$loading.close();
                 this.$router.push({path:'/login'});
-            }, 1000);
+            }, 500);
         },
         nameTest(){
             if(this.username == ''){
@@ -187,20 +189,28 @@ export default {
 
 <style lang="scss" scoped>
     .register-whole{
-        height: 100%;
-        display: grid;
-        grid-template: 5fr 1fr / 1fr;
+        // height: 100%;
+        background: #F0F0F0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
         form{
-            // border-bottom: 1px solid gray;
+            width: 95%;
             text-align: left;
+            margin: 0 auto;
+            padding: 10px 0;
+            background: white;
+            border-radius: 15px;
         }
         .btns{
+            width: 100%;
             display: flex;
             justify-content: space-around;
             align-items: center;
             .btn{
-                width: 80px;
-                height: 80px;
+                width: 60px;
+                height: 60px;
                 border: 1px solid black;
                 border-radius: 50%;
                 display: flex;
@@ -210,7 +220,6 @@ export default {
             }
             .btn:active{
                 background: gray;
-                // transform: scale(0.9);
                 span{
                     transform: scale(0.9);
                 }

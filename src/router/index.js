@@ -44,7 +44,10 @@ export default new Router({
     {
       path: '/follow',
       name: 'Follow',
-      component: Follow
+      component: Follow,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/person',
@@ -69,7 +72,10 @@ export default new Router({
     {
       path: '/searchresult',
       name: 'SearchResult',
-      component: SearchResult
+      component: SearchResult,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/goods',

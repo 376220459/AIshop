@@ -1,5 +1,5 @@
 <template>
-    <div class="searchresult-whole" id="resultWhole" :style="{right:wholeRight+'%'}">
+    <div class="searchresult-whole" id="resultWhole" :style="{right:wholeRight+'%',height: appHeight+'px'}">
         <div class="select-list" :style="{right:selectRight+'rem',display:selectDisplay}">
             <span class="title">筛选</span>
             <div class="content">
@@ -52,16 +52,16 @@
 
         <div class="goods-list" v-if="listIf[0]">
             <div class="list-nav">
-                <select name="sort">
-                    <option value="">综合</option>
-                    <option value="">销量</option>
-                    <option value="">评分</option>
-                    <option value="">价格↓</option>
-                    <option value="">价格↑</option>
+                <select name="sort" v-model="sortValue">
+                    <option :value="sort[0]">综合</option>
+                    <option :value="sort[1]">销量</option>
+                    <option :value="sort[2]">评分</option>
+                    <option :value="sort[3]">价格↓</option>
+                    <option :value="sort[4]">价格↑</option>
                 </select>
                 <span @click="selectGoods">筛选<i class="iconfont icon-shaixuan"></i></span>
             </div>
-            <div class="list">
+            <div class="list" id="goods">
                 <ul>
                     <li v-for="(item, index) in goodslist" :key="index" @click="goGoods">
                         <img height="100%" :src="item.img" alt="goods">
@@ -85,7 +85,7 @@
                 <span :style="shopNavStyle[1]" @click="changeShopNav('sale')">销量优先</span>
                 <span :style="shopNavStyle[2]" @click="changeShopNav('value')">好评优先</span>
             </div>
-            <ul class="shop">
+            <ul class="shop" id="shop">
                 <li v-for="(item, index) in shoplist" :key="index">
                     <div>
                         <div>
@@ -111,10 +111,15 @@
 
 <script>
 export default {
-    name: 'Search',
+    name: 'SearchResult',
     data(){
         return{
+            appHeight: document.body.clientHeight,
             wholeRight: 0,
+            sort: ['a','b','c','d','e'],
+            sortValue: 'a',
+            goodsHeight: 0,
+            shopHeight: 0,
             goodsTypeStyle: [],
             goodsServerStyle: [],
             goodsRangeStyle: [],
@@ -257,15 +262,23 @@ export default {
     methods: {
         leftMove(){
             this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
+            if(this.wholeRight > 200){
+                this.wholeRight = 0;
+            }else{
+                setTimeout(() => {
+                    this.leftMove();
+                },10);
+            }
         },
         rightMove(){
             this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
+            if(this.wholeRight < -200){
+                this.wholeRight = 0;
+            }else{
+                setTimeout(() => {
+                    this.rightMove();
+                },10);
+            }
         },
         goGoods(){
             this.leftMove();
@@ -293,17 +306,19 @@ export default {
         changeGoodsRange(index,price){
             this.goodsRangeStyle = [];
             this.goodsRangeStyle[index] = 'color:#FF6600';
-            this.lowprice = price.split('-')[0];
-            this.highprice = price.split('-')[1];
+            this.lowprice = parseInt(price.split('-')[0]);
+            this.highprice = parseInt(price.split('-')[1]);
         },
         clear(){
             this.goodsType = this.lowprice = this.highprice = '';
             this.goodsServer = this.goodsTypeStyle = this.goodsServerStyle = this.goodsRangeStyle = [];
         },
         selectCommit(){
-            // this.$toast({
-            //     message: '商品类型：' + this.goodsType + '\n' + '折扣和服务：' + this.goodsServer.join('--')
-            // })
+            if(this.lowprice > this.highprice){
+                [this.lowprice,this.highprice] = [this.highprice,this.lowprice];
+                console.log(this.lowprice);
+                console.log(this.highprice);
+            }
             alert('商品类型： ' + this.goodsType + '\n' + '折扣和服务： ' + this.goodsServer.join('、') + '\n' + '价格区间： ' + this.lowprice + '-' + this.highprice);
             this.hidden();
         },
@@ -323,6 +338,7 @@ export default {
             this.rightMove();
             setTimeout(() => {
                 let resultWhole = document.getElementById('resultWhole');
+                // history.back();
                 resultWhole.style.display = 'none';
                 this.$router.push({path:'/search',query:{goods: this.searchContent}});
             }, 200);
@@ -351,12 +367,41 @@ export default {
         this.searchContent = this.$route.query.goods;
         this.nav = this.$route.query.type;
     },
+    activated(){
+        let goods = document.getElementById('goods');
+        let shop = document.getElementById('shop');
+        if(this.goodsHeight!=0 || this.shopHeight!= 0){
+            if(this.nav == 'whole'){
+                goods.scrollTop = this.goodsHeight;
+            }else{
+                shop.scrollTop = this.shopHeight;
+            }
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        if(to.path === '/goods' || to.path === '/shop'){
+            let goods = document.getElementById('goods');
+            let shop = document.getElementById('shop');
+            if(this.nav == 'whole'){
+                this.goodsHeight = goods.scrollTop;
+            }else{
+                this.shopHeight = shop.scrollTop;
+            }
+            from.meta.keepAlive = true;
+            
+        }else{
+            from.meta.keepAlive = false;
+            this.$destroy();
+        }
+        // console.log(from.meta.keepAlive);
+        next();
+    }
 }
 </script>
 
 <style lang="scss" scoped>
     .searchresult-whole{
-        height: 100%;
+        // height: 100%;
         width: 100%;
         background: #F0F0F0;
         overflow: hidden;

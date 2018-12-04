@@ -34,6 +34,23 @@ Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
+router.afterEach((to, from) => {
+  if((from.name==='Search' || from.name==='Home')  && to.name==='SearchResult'){
+    window.location.reload();
+  }
+    // if((from.name==='Search' || from.name==='Home') && to.name==='SearchResult'){ 
+    //   let isRefresh=sessionStorage.getItem('isRefresh');
+    //   if(isRefresh==='0'){ 
+    //     sessionStorage.setItem('isRefresh',null); 
+    //     window.location.reload() 
+    //   }else{ 
+    //     sessionStorage.setItem('isRefresh',0); 
+    //   } 
+    // }else if((from.name==='Search' || from.name==='Home') && from.name==='SearchResult'){ 
+    //   sessionStorage.setItem('isRefresh',0) 
+    // } 
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

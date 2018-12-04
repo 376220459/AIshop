@@ -33,6 +33,9 @@
                 </div>
             </form>
         </div>
+        <footer>
+            <button @click="goLogin">退出登录</button>
+        </footer>
     </div>    
 </template>
 
@@ -143,6 +146,17 @@ export default {
             },reject=>{
                 console.log('取消修改');
             });
+        },
+        goLogin(){
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
+            storage.removeItem('id');
+            this.$toast({
+                message: '账号已登出',
+                duration: 1000
+            })
+            this.$router.push({path: '/login'});
         }
     }
 }
@@ -169,7 +183,7 @@ export default {
             }
         }
         .inf-content{
-            height: 90%;
+            height: 80%;
             form{
                 height: 100%;
                 background: white;
@@ -208,6 +222,18 @@ export default {
                         font-size: 15px;
                     }
                 }
+            }
+        }
+        footer{
+            height: 10%;
+            button{
+                height: 100%;
+                width: 100%;
+                background: #FF6600;
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                // border-radius: 25px;
             }
         }
     }

@@ -10,9 +10,7 @@
 </template>
 
 <script>
-import store from '@/vuex/store'
 export default {
-    store,
     name: 'Footer',
     data(){
         return{
@@ -42,20 +40,21 @@ export default {
     },
     methods: {
         navClick(index){
-            this.$router.push({
-                path: this.navItems[index].path
-            });
-            // if(index!=0 && !this.$store.state.id){
-            //     this.$toast({
-            //         message: '您好像还没有登陆哦~',
-            //         duration: 2000
-            //     });
-            //     this.$router.push({path:'/login'});
-            // }else{
-            //     this.$router.push({
-            //         path: this.navItems[index].path
-            //     });
-            // }
+            if(window.localStorage){
+                var storage = window.localStorage;
+            }
+            // console.log(storage.getItem('id'));
+            if(index!=0 && !storage.id){
+                this.$toast({
+                    message: '您好像还没有登陆哦~',
+                    duration: 2000
+                });
+                this.$router.push({path:'/login'});
+            }else{
+                this.$router.push({
+                    path: this.navItems[index].path
+                });
+            }
         }
     }
 }
