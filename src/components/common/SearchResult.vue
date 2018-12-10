@@ -260,35 +260,17 @@ export default {
         }
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            if(this.wholeRight > 200){
-                this.wholeRight = 0;
-            }else{
-                setTimeout(() => {
-                    this.leftMove();
-                },10);
-            }
-        },
-        rightMove(){
-            this.wholeRight -= 10;
-            if(this.wholeRight < -200){
-                this.wholeRight = 0;
-            }else{
-                setTimeout(() => {
-                    this.rightMove();
-                },10);
-            }
-        },
         goGoods(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
+                this.wholeRight = 0;
                 this.$router.push({path:'/goods'}); 
             }, 200);
         },
         goShop(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
+                this.wholeRight = 0;
                 this.$router.push({path: '/shop'}); 
             }, 200);
         },
@@ -335,7 +317,7 @@ export default {
             this.$router.push({path:'/search',query:{goods: this.searchContent}});
         },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 let resultWhole = document.getElementById('resultWhole');
                 // history.back();
@@ -406,6 +388,7 @@ export default {
         background: #F0F0F0;
         overflow: hidden;
         position: relative;
+        transition: right 150ms linear;
         .select-list{
             height: 100%;
             width: 80%;

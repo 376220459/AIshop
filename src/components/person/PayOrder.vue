@@ -71,20 +71,8 @@ export default {
         }
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
-        rightMove(){
-            this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
-        },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 this.$router.push({path: '/person'});
             }, 200);
@@ -93,7 +81,7 @@ export default {
             this.$router.push({path: '/' + pathName});
         },
         goGoods(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
                 this.$router.push({path: '/goods'});
             }, 200);
@@ -131,6 +119,7 @@ export default {
         height: 100%;
         background: #F0F0F0;
         position: relative;
+        transition: right 150ms linear;
         header{
             height: 10%;
             background: #FF9966;

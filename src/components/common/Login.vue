@@ -1,12 +1,12 @@
 <template>
-    <div class="login-whole" id="whole" :style="{height: appHeight+'px'}">
+    <div class="login-whole" id="whole" :style="{height:appHeight+'px',background:background,backgroundSize:backgroundSize}">
         <button class="back" @click="goHome">返回首页</button>
         <div class="top">
             <div class="line" style="border-color:gray;"></div>
             <div class="btn" @click="register" style="border-color:gray;"><span>注册</span></div>
         </div>
         <div class="loginForm">
-            <form action="" style="text-align:left">
+            <form style="text-align:left">
                 <div><span>账号：</span><input v-model="username" type="text" placeholder="手机号 / 邮箱 / 昵称"></div>
                 <div><span>密码：</span><input v-model="password" type="password" @keyup.enter="login"></div>
                 <!-- <div style="display:flex;align-items:center;"><span>验证码：</span><input type="password" style="width:5em"><div style="width:1.5em;height:0.4em;border:1px solid black;display:flex">xyzj</div></div> -->
@@ -26,7 +26,9 @@ export default {
         return{
             appHeight: document.body.clientHeight,
             username: '',
-            password: ''
+            password: '',
+            background: 'url(../../../static/back/login-back.jpeg)',
+            backgroundSize: 'cover'
         }
     },
     methods: {
@@ -91,18 +93,16 @@ export default {
         // height: 100%;
         display: grid;
         grid-template: 1fr 1fr 1fr / 1fr;
-        background: url(../../../static/back/login-back.jpeg);
-        background-size: cover;
+        // background: url(../../../static/back/login-back.jpeg);
+        // background-size: cover;
+        background-repeat: no-repeat;
         animation: login 0.8s;
         animation-iteration-count:infinite;
         animation-play-state: paused;
-        // animation-fill-mode: forwards;
         @keyframes login
         {
             0% {transform: rotateY()}
             100% {transform: scale(1.1)}
-            // 50% {transform: rotateZ(90*5deg)}
-            // 100% {transform: rotateZ(360*3deg) scale(0.1); opacity: 0}
         }
         .back{
             position: absolute;

@@ -84,20 +84,8 @@ export default {
         }
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
-        rightMove(){
-            this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
-        },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 history.back();
             }, 200);
@@ -106,7 +94,7 @@ export default {
             this.$router.push({path: '/home'});
         },
         goGoods(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
                 this.$router.push({path: '/goods'});
             }, 200);
@@ -120,9 +108,10 @@ export default {
         height: 100%;
         background: #F0F0F0;
         position: relative;
+        transition: right 150ms linear;
         header{
             height: 25%;
-            background: url(/static/shop/header.jpg);
+            background: url(../../../static/shop/header.jpg);
             .header-box{
                 height: 100%;
                 background: rgba(192,192,192,0.2);

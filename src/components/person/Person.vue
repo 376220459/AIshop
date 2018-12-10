@@ -2,7 +2,7 @@
     <div class="person-whole">
         <div class="person-content">
             <div class="base-inf">
-                <div class="img"><img @click="goInf" :src="person.img" alt="person" width="120px"></div>
+                <div class="img"><img @click="goInf" :src="person.img" alt="person" width="100%"></div>
                 <p @click="goInf" class="name"><i :class="sexClass"></i> {{ person.name }}</p>
                 <div class="count">
                     <p @click="goCollect">

@@ -74,23 +74,11 @@ export default {
                 console.log('取消删除操作');
             })
         },
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
-        rightMove(){
-            this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
-        },
         changeNav(nav){
             this.nav = nav;
         },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 this.$router.push({path:'/home'}); 
             }, 200);
@@ -103,7 +91,7 @@ export default {
                     duration: 1000
                 })
             }else{
-                this.leftMove();
+                this.wholeRight = 100;
                 setTimeout(() => {
                     this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent.trim()}});
                 }, 200);
@@ -119,7 +107,7 @@ export default {
         },
         historyClick(item){
             this.searchContent = item;
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
                 this.$router.push({path:'/searchresult', query: {type: this.nav,goods: this.searchContent}});
             }, 200); 
@@ -129,19 +117,14 @@ export default {
         console.log(inp);
         inp.autofocus = 'autofocus';
         this.searchContent = this.$route.query.goods;
-    },
-    // beforeRouteLeave(to, from, next) {
-    //     if(to.path === '/searchresult'){
-    //         to.meta.keepAlive = false;
-    //     }
-    //     next();
-    // }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
     .search-whole{
         position: relative;
+        transition: right 150ms linear;
         // height: 100%;
         display: grid;
         grid-template: 1fr 1fr 10fr / 1fr;

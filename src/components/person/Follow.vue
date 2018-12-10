@@ -141,15 +141,10 @@ export default {
         }
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
         goShop(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
+                this.wholeRight = 0;
                 this.$router.push({path: '/shop'});
             }, 200);
         },
@@ -229,6 +224,7 @@ export default {
         grid-template: 9fr 1fr / 1fr;
         background: #F0F0F0;
         position: relative;
+        transition: right 150ms linear;
         .footer{
             ul{
                 li:nth-child(2){

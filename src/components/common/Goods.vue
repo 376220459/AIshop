@@ -464,18 +464,6 @@ export default {
         }
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
-        rightMove(){
-            this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
-        },
         tip(){
             this.$toast({
                 message: '此功能未开放',
@@ -483,7 +471,7 @@ export default {
             });
         },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 history.back();
             }, 200);
@@ -498,7 +486,7 @@ export default {
             this.$router.push({path:'/goods'});
         },
         goShop(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
                 this.$router.push({path:'/shop'});
             }, 200);
@@ -714,6 +702,7 @@ export default {
         height: 100%;
         width: 100%;
         position: relative;
+        transition: right 150ms linear;
         overflow: hidden;
         .select{
             color: #FF6600;

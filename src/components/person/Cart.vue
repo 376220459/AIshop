@@ -161,14 +161,8 @@ export default {
         
     },
     methods: {
-        leftMove(){
-            this.wholeRight += 10;
-            setTimeout(() => {
-                this.leftMove();
-            },10);
-        },
         goGoods(){
-            this.leftMove();
+            this.wholeRight = 100;
             setTimeout(() => {
                 this.$router.push({path: '/goods'});
             }, 200);
@@ -383,6 +377,7 @@ export default {
         display: grid;
         grid-template: 9fr 1fr / 1fr;
         position: relative;
+        transition: right 150ms linear;
         .footer{
             ul{
                 li:nth-child(3){

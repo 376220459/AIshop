@@ -10,7 +10,7 @@
                 <div class="input" @click="changeImg">
                     <span>头像</span>
                     <div class="headImg">
-                        <div class="img"><img :src="person.img" alt="head" width="60px"></div>
+                        <div class="img"><img :src="person.img" alt="head" width="100%"></div>
                         <strong>＞</strong>
                     </div>
                     <input id="upload" type="file" accept="image/*" style="display:none" @change="showHeadImg">
@@ -79,14 +79,8 @@ export default {
         }
     },
     methods: {
-        rightMove(){
-            this.wholeRight -= 10;
-            setTimeout(() => {
-                this.rightMove();
-            },10);
-        },
         goBack(){
-            this.rightMove();
+            this.wholeRight = -100;
             setTimeout(() => {
                 history.back();  
             }, 200);
@@ -167,6 +161,7 @@ export default {
         height: 100%;
         background: #F0F0F0;
         position: relative;
+        transition: right 150ms linear;
         header{
             height: 10%;
             display: flex;

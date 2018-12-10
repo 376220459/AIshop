@@ -195,6 +195,7 @@ export default {
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
+        overflow: auto;
         form{
             width: 95%;
             text-align: left;
